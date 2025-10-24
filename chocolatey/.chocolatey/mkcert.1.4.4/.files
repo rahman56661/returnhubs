@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fileSnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <files>
+    <file path="C:\ProgramData\chocolatey\lib\mkcert\mkcert.nupkg" checksum="C10E9DF7A5AB776A8FA87939234FE469" />
+    <file path="C:\ProgramData\chocolatey\lib\mkcert\mkcert.nuspec" checksum="F36F1A5C731C81DCEE4FA3AE3939FFBE" />
+    <file path="C:\ProgramData\chocolatey\lib\mkcert\legal\LICENSE.txt" checksum="FE00F5198507B76253C1A7873B3FFF38" />
+    <file path="C:\ProgramData\chocolatey\lib\mkcert\legal\VERIFICATION.txt" checksum="E988D272E3FCCB71AA162F1C69EB50DE" />
+    <file path="C:\ProgramData\chocolatey\lib\mkcert\tools\mkcert.exe" checksum="8AE03FB0741D036801ADD750B5528ACD" />
+  </files>
+</fileSnapshot>

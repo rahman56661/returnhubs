@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - ReturnHubs</title>
+    <style>
+        /* INDUSTRIAL THEME */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-container {
+            background: var(--dark-card);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+            text-align: center;
+        }
+
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--success-color), #44ff88);
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        h1 {
+            color: var(--success-color);
+            margin-bottom: 15px;
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--muted-text);
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .order-details {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--muted-text);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .free-trial-banner {
+            background: linear-gradient(45deg, var(--warning-color), #f5576c);
+            color: var(--dark-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .next-steps {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+        }
+
+        .step-number {
+            background: var(--success-color);
+            color: var(--dark-bg);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to bottom, #44ff44 0%, #33cc33 50%, #22aa22 100%);
+            color: var(--dark-bg);
+            box-shadow: 0 4px 15px rgba(68, 255, 68, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to bottom, #55ff55 0%, #44dd44 50%, #33bb33 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(68, 255, 68, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--success-color);
+            transform: translateY(-2px);
+        }
+
+        .invoice-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-download {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-download:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+        }
+
+        .confirmation-email {
+            background: rgba(68, 255, 68, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border: 1px solid var(--success-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✅</div>
+        <h1>Payment Successful!</h1>
+        <p class="subtitle">Your ReturnHubs subscription has been activated</p>
+
+        <div class="free-trial-banner">
+            🎉 Enjoy 6 Months FREE Trial! Your billing will start after trial period.
+        </div>
+
+        <div class="order-details">
+            <div class="detail-row">
+                <span class="detail-label">Transaction ID:</span>
+                <span class="detail-value" id="transactionId">TXN123456789</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Payment Method:</span>
+                <span class="detail-value" id="paymentMethod">Credit Card</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Amount Paid:</span>
+                <span class="detail-value" id="amountPaid">₹2,244.00</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Plan:</span>
+                <span class="detail-value" id="planDetails">Monthly - 1 Admin, 5 Users</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Payment Date:</span>
+                <span class="detail-value" id="paymentDate">January 15, 2024 14:30</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Status:</span>
+                <span class="detail-value" style="color: var(--success-color);">✅ Completed</span>
+            </div>
+        </div>
+
+        <div class="confirmation-email">
+            📧 A confirmation email has been sent to your registered email address with invoice and activation details.
+        </div>
+
+        <div class="next-steps">
+            <h3>What's Next?</h3>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>Your account has been activated immediately</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>Access your dashboard to start using ReturnHubs</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>Check your email for login credentials and setup guide</div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div>Your 6-month free trial has started</div>
+            </div>
+        </div>
+
+        <div class="invoice-section">
+            <button class="btn-download" onclick="downloadInvoice()">
+                📄 Download Invoice
+            </button>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/dashboard" class="btn btn-primary">🚀 Go to Dashboard</a>
+            <a href="/payment" class="btn btn-secondary">💳 Manage Subscription</a>
+        </div>
+    </div>
+
+    <script>
+        function getPaymentDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                type: urlParams.get('type') || 'card',
+                amount: parseFloat(urlParams.get('amount')) || 2244.00,
+                plan: urlParams.get('plan') || 'monthly',
+                transaction: urlParams.get('transaction') || 'TXN' + Date.now(),
+                admin: parseInt(urlParams.get('admin')) || 1,
+                regular: parseInt(urlParams.get('regular')) || 5
+            };
+        }
+
+        function downloadInvoice() {
+            const details = getPaymentDetails();
+            alert('Downloading invoice for transaction: ' + details.transaction);
+            // In real implementation, generate and download PDF invoice
+        }
+
+        function getPaymentMethodText(type) {
+            const methods = {
+                'card': 'Credit/Debit Card',
+                'upi': 'UPI Payment',
+                'bank': 'Bank Transfer',
+                'cash': 'Cash Payment'
+            };
+            return methods[type] || 'Online Payment';
+        }
+
+        function getPlanText(plan, admin, regular) {
+            const planNames = {
+                'monthly': 'Monthly',
+                'quarterly': 'Quarterly',
+                'sixmonth': '6 Months',
+                'annual': 'Annual'
+            };
+            return `${planNames[plan]} - ${admin} Admin, ${regular} Users`;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const details = getPaymentDetails();
+            
+            // Update details
+            document.getElementById('transactionId').textContent = details.transaction;
+            document.getElementById('paymentMethod').textContent = getPaymentMethodText(details.type);
+            document.getElementById('amountPaid').textContent = `₹${details.amount.toFixed(2)}`;
+            document.getElementById('planDetails').textContent = getPlanText(details.plan, details.admin, details.regular);
+            document.getElementById('paymentDate').textContent = new Date().toLocaleString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        });
+    </script>
+</body>
+</html>

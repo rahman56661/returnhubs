@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - ReturnHubs</title>
+    <style>
+        /* INDUSTRIAL THEME - Dashboard maari */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+        }
+
+        .payment-container {
+            background: var(--dark-card);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .payment-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--muted-text);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .free-offer {
+            background: linear-gradient(45deg, var(--warning-color), #f5576c);
+            color: var(--dark-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .plan-card {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .plan-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.2);
+        }
+
+        .plan-card.selected {
+            border-color: var(--accent-color);
+            background: linear-gradient(135deg, var(--dark-surface), #333333);
+            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.3);
+        }
+
+        .plan-card.recommended::before {
+            content: '💰 BEST VALUE';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .plan-name {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .plan-price {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .plan-price .month {
+            font-size: 16px;
+            color: var(--muted-text);
+        }
+
+        .plan-duration {
+            color: var(--muted-text);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .price-per-user {
+            background: rgba(255, 68, 68, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .user-price {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .plan-discount {
+            color: var(--success-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .user-input-section {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-input-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .user-input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            margin-bottom: 15px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--muted-text);
+            font-weight: 500;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--dark-card);
+            color: var(--light-text);
+            font-size: 16px;
+        }
+
+        .input-field input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+        }
+
+        .price-summary {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .price-summary h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .price-breakdown {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .price-row.total {
+            border-top: 2px solid var(--accent-color);
+            border-bottom: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+        .btn-pay {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-pay:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+        }
+
+        .btn-pay:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .plan-features {
+            margin-top: 15px;
+        }
+
+        .plan-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .plan-features li {
+            padding: 5px 0;
+            color: var(--muted-text);
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="payment-container">
+        <h2>💰 Choose Your Subscription Plan</h2>
+        <p class="subtitle">Select a billing cycle that works best for your business</p>
+
+        <div class="free-offer">
+            🎉 SPECIAL OFFER: First 6 Months FREE for All Plans! 🎉
+        </div>
+
+        <div class="plans-grid">
+            <!-- Monthly Plan -->
+            <div class="plan-card" onclick="selectPlan('monthly')">
+                <div class="plan-name">Monthly</div>
+                <div class="plan-price">Pay Monthly</div>
+                <div class="plan-duration">No commitment</div>
+
+                <div class="price-per-user">
+                    <div class="user-price">
+                        <span>Admin User:</span>
+                        <span>₹499/month</span>
+                    </div>
+                    <div class="user-price">
+                        <span>Regular User:</span>
+                        <span>₹349/month</span>
+                    </div>
+                </div>
+
+                <div class="plan-features">
+                    <ul>
+                        <li>Flexible monthly billing</li>
+                        <li>Cancel anytime</li>
+                        <li>Standard support</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quarterly Plan -->
+            <div class="plan-card" onclick="selectPlan('quarterly')">
+                <div class="plan-name">Quarterly</div>
+                <div class="plan-price">Save 15%</div>
+                <div class="plan-duration">3 months billing</div>
+
+                <div class="price-per-user">
+                    <div class="user-price">
+                        <span>Admin User:</span>
+                        <span>₹424.15/month</span>
+                    </div>
+                    <div class="user-price">
+                        <span>Regular User:</span>
+                        <span>₹296.65/month</span>
+                    </div>
+                </div>
+
+                <div class="plan-discount">Effective 15% discount</div>
+                <div class="plan-features">
+                    <ul>
+                        <li>Billed every 3 months</li>
+                        <li>Better value</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 6-Month Plan -->
+            <div class="plan-card recommended" onclick="selectPlan('sixmonth')">
+                <div class="plan-name">6 Months</div>
+                <div class="plan-price">Save 30%</div>
+                <div class="plan-duration">6 months billing</div>
+
+                <div class="price-per-user">
+                    <div class="user-price">
+                        <span>Admin User:</span>
+                        <span>₹349.30/month</span>
+                    </div>
+                    <div class="user-price">
+                        <span>Regular User:</span>
+                        <span>₹244.30/month</span>
+                    </div>
+                </div>
+
+                <div class="plan-discount">Effective 30% discount</div>
+                <div class="plan-features">
+                    <ul>
+                        <li>Billed every 6 months</li>
+                        <li>Best value for money</li>
+                        <li>Priority support</li>
+                        <li>Dedicated account manager</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Annual Plan -->
+            <div class="plan-card" onclick="selectPlan('annual')">
+                <div class="plan-name">Annual</div>
+                <div class="plan-price">Save 60%</div>
+                <div class="plan-duration">1 year billing</div>
+
+                <div class="price-per-user">
+                    <div class="user-price">
+                        <span>Admin User:</span>
+                        <span>₹199.60/month</span>
+                    </div>
+                    <div class="user-price">
+                        <span>Regular User:</span>
+                        <span>₹139.60/month</span>
+                    </div>
+                </div>
+
+                <div class="plan-discount">Effective 60% discount</div>
+                <div class="plan-features">
+                    <ul>
+                        <li>Billed annually</li>
+                        <li>Maximum savings</li>
+                        <li>24/7 Premium support</li>
+                        <li>Dedicated account manager</li>
+                        <li>Custom feature requests</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Input Section -->
+        <div class="user-input-section">
+            <h3>👥 Configure Your Team</h3>
+            <div class="user-input-group">
+                <div class="input-field">
+                    <label for="adminUsers">Number of Admin Users</label>
+                    <input type="number" id="adminUsers" min="1" max="100" value="1" onchange="calculatePrice()">
+                </div>
+                <div class="input-field">
+                    <label for="regularUsers">Number of Regular Users</label>
+                    <input type="number" id="regularUsers" min="1" max="1000" value="5" onchange="calculatePrice()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Summary -->
+        <div class="price-summary">
+            <h3>💰 Price Summary</h3>
+            <div class="price-breakdown">
+                <div class="price-row">
+                    <span>Selected Plan:</span>
+                    <span id="selectedPlanText">Monthly</span>
+                </div>
+                <div class="price-row">
+                    <span>Admin Users (<span id="adminCount">1</span> users):</span>
+                    <span>₹<span id="adminPrice">499</span>/month each</span>
+                </div>
+                <div class="price-row">
+                    <span>Regular Users (<span id="regularCount">5</span> users):</span>
+                    <span>₹<span id="regularPrice">349</span>/month each</span>
+                </div>
+                <div class="price-row">
+                    <span>Monthly Subtotal:</span>
+                    <span>₹<span id="monthlySubtotal">2,244</span></span>
+                </div>
+                <div class="price-row">
+                    <span>Billing Cycle:</span>
+                    <span id="billingCycle">Monthly</span>
+                </div>
+                <div class="price-row">
+                    <span>Total Amount Payable:</span>
+                    <span id="totalAmountText">₹2,244</span>
+                </div>
+                <div class="price-row total">
+                    <span>Final Amount:</span>
+                    <span>₹<span id="finalAmount">2,244</span></span>
+                </div>
+                <div class="price-row">
+                    <span>First 6 Months:</span>
+                    <span style="color: var(--success-color); font-weight: bold;">FREE! 🎉</span>
+                </div>
+                <div class="price-row">
+                    <span>You Save:</span>
+                    <span style="color: var(--success-color); font-weight: bold;" id="savingsText">₹0</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-pay" id="payButton" onclick="proceedToPayment()">
+            🚀 Start Your 6-Month Free Trial
+        </button>
+    </div>
+
+    <script>
+        // CORRECT PRICING as per our discussion
+        const PRICING = {
+            monthly: {
+                admin: 499,
+                regular: 349,
+                duration: 'month',
+                discount: 0
+            },
+            quarterly: {
+                admin: 424.15,
+                regular: 296.65,
+                duration: '3 months',
+                discount: 15
+            },
+            sixmonth: {
+                admin: 349.30,
+                regular: 244.30,
+                duration: '6 months',
+                discount: 30
+            },
+            annual: {
+                admin: 199.60,
+                regular: 139.60,
+                duration: 'year',
+                discount: 60
+            }
+        };
+
+        let selectedPlan = 'monthly';
+
+        function selectPlan(plan) {
+            selectedPlan = plan;
+
+            // Update UI
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            // Recalculate price
+            calculatePrice();
+        }
+
+        function calculatePrice() {
+            const adminUsers = parseInt(document.getElementById('adminUsers').value) || 0;
+            const regularUsers = parseInt(document.getElementById('regularUsers').value) || 0;
+
+            // Get current plan pricing
+            const plan = PRICING[selectedPlan];
+
+            // Update counts and prices in summary
+            document.getElementById('adminCount').textContent = adminUsers;
+            document.getElementById('regularCount').textContent = regularUsers;
+            document.getElementById('adminPrice').textContent = plan.admin.toFixed(2);
+            document.getElementById('regularPrice').textContent = plan.regular.toFixed(2);
+
+            // Calculate costs
+            const adminMonthly = adminUsers * plan.admin;
+            const regularMonthly = regularUsers * plan.regular;
+            const monthlySubtotal = adminMonthly + regularMonthly;
+
+            // Calculate total amount based on billing cycle
+            let totalAmount = monthlySubtotal;
+            let billingCycle = 'per month';
+
+            if (selectedPlan === 'quarterly') {
+                totalAmount = monthlySubtotal * 3;
+                billingCycle = 'for 3 months';
+            } else if (selectedPlan === 'sixmonth') {
+                totalAmount = monthlySubtotal * 6;
+                billingCycle = 'for 6 months';
+            } else if (selectedPlan === 'annual') {
+                totalAmount = monthlySubtotal * 12;
+                billingCycle = 'for 1 year';
+            }
+
+            // Calculate savings compared to monthly plan
+            const monthlyPlanAdmin = adminUsers * PRICING.monthly.admin;
+            const monthlyPlanRegular = regularUsers * PRICING.monthly.regular;
+            const monthlyPlanTotal = monthlyPlanAdmin + monthlyPlanRegular;
+
+            let comparisonTotal = monthlyPlanTotal;
+            if (selectedPlan === 'quarterly') comparisonTotal = monthlyPlanTotal * 3;
+            else if (selectedPlan === 'sixmonth') comparisonTotal = monthlyPlanTotal * 6;
+            else if (selectedPlan === 'annual') comparisonTotal = monthlyPlanTotal * 12;
+
+            const savings = comparisonTotal - totalAmount;
+
+            // Update summary
+            document.getElementById('monthlySubtotal').textContent = monthlySubtotal.toFixed(2);
+            document.getElementById('billingCycle').textContent = billingCycle;
+            document.getElementById('totalAmountText').textContent = `₹${totalAmount.toFixed(2)} ${billingCycle}`;
+            document.getElementById('finalAmount').textContent = totalAmount.toFixed(2);
+            document.getElementById('selectedPlanText').textContent = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+            document.getElementById('savingsText').textContent = `₹${savings.toFixed(2)}`;
+
+            // Update button text
+            const payButton = document.getElementById('payButton');
+            payButton.textContent = `🚀 Start Your 6-Month Free Trial - Pay ₹${totalAmount.toFixed(2)} ${billingCycle} after trial`;
+        }
+
+        function proceedToPayment() {
+            const adminUsers = parseInt(document.getElementById('adminUsers').value) || 0;
+            const regularUsers = parseInt(document.getElementById('regularUsers').value) || 0;
+
+            if (adminUsers < 1 || regularUsers < 1) {
+                alert('Please enter at least 1 admin user and 1 regular user');
+                return;
+            }
+
+            // Get final amount
+            const plan = PRICING[selectedPlan];
+            const adminMonthly = adminUsers * plan.admin;
+            const regularMonthly = regularUsers * plan.regular;
+            const monthlySubtotal = adminMonthly + regularMonthly;
+
+            let totalAmount = monthlySubtotal;
+            if (selectedPlan === 'quarterly') totalAmount = monthlySubtotal * 3;
+            else if (selectedPlan === 'sixmonth') totalAmount = monthlySubtotal * 6;
+            else if (selectedPlan === 'annual') totalAmount = monthlySubtotal * 12;
+
+            // Redirect to payment method page with order details
+            const queryParams = new URLSearchParams({
+                plan: selectedPlan,
+                admin: adminUsers,
+                regular: regularUsers,
+                amount: totalAmount.toFixed(2)
+            });
+
+            console.log('Redirecting to payment method with:', {
+                plan: selectedPlan,
+                adminUsers: adminUsers,
+                regularUsers: regularUsers,
+                totalAmount: totalAmount.toFixed(2)
+            });
+
+            // Prepare payment data
+            const paymentData = {
+                plan: selectedPlan,
+                adminUsers: adminUsers,
+                regularUsers: regularUsers,
+                adminPrice: plan.admin,
+                regularPrice: plan.regular,
+                totalAmount: totalAmount,
+                discount: plan.discount,
+                firstSixMonthsFree: true
+            };
+
+            console.log('Proceeding to payment with:', paymentData);
+
+            // TODO: Integrate with Stripe
+            alert(`Redirecting to payment...\nPlan: ${selectedPlan}\nAdmin Users: ${adminUsers}\nRegular Users: ${regularUsers}\nTotal Amount: ₹${totalAmount.toFixed(2)}\nFirst 6 Months: FREE!`);
+
+            // For now, redirect to success page
+            window.location.href = `/payment-method?${queryParams.toString()}`;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select monthly plan by default
+            document.querySelector('.plan-card').classList.add('selected');
+            calculatePrice();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,377 @@
+<!-- public/organization-register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Organization - Warehouse System</title>
+    <style>
+        /* INDUSTRIAL THEME CSS - Matching Drive Settings */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--code-font);
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--dark-card);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            color: var(--muted-text);
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            background: var(--dark-surface);
+            color: var(--light-text);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: var(--dark-surface);
+            color: var(--muted-text);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border-color: var(--border-color);
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+            border-left: 4px solid transparent;
+        }
+
+        .alert-success {
+            background-color: rgba(68, 255, 68, 0.9);
+            border-color: var(--success-color);
+            color: var(--dark-bg);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 68, 68, 0.9);
+            border-color: var(--accent-color);
+            color: var(--dark-bg);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--muted-text);
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        /* Form small text styling */
+        .form-group small {
+            color: var(--muted-text);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--light-text);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏭 Register Organization</h1>
+            <p>Create your organization account to get started</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <form id="organizationForm">
+            <div class="form-group">
+                <label for="organizationName">Organization Name *</label>
+                <input type="text" id="organizationName" name="organizationName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="displayName">Display Name *</label>
+                <input type="text" id="displayName" name="displayName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="organizationId">Organization ID *</label>
+                <input type="text" id="organizationId" name="organizationId" required 
+                       placeholder="e.g., company_123" pattern="[a-zA-Z0-9_]+" 
+                       title="Only letters, numbers, and underscores allowed">
+                <small style="color: #a0a0b0; font-size: 12px;">Unique identifier for your organization</small>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Brief description of your organization"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="contactEmail">Contact Email *</label>
+                <input type="email" id="contactEmail" name="contactEmail" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+
+            <div class="form-group">
+                <label for="adminUsername">Admin Username *</label>
+                <input type="text" id="adminUsername" name="adminUsername" required>
+            </div>
+
+            <div class="form-group">
+                <label for="adminEmail">Admin Email *</label>
+                <input type="email" id="adminEmail" name="adminEmail" required>
+            </div>
+
+            <div class="form-group">
+                <label for="adminPassword">Admin Password *</label>
+                <input type="password" id="adminPassword" name="adminPassword" required minlength="6">
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Create Organization
+            </button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="/login">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('organizationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Creating Organization...';
+                
+                const formData = {
+                    organizationName: document.getElementById('organizationName').value,
+                    displayName: document.getElementById('displayName').value,
+                    organizationId: document.getElementById('organizationId').value,
+                    description: document.getElementById('description').value,
+                    contactEmail: document.getElementById('contactEmail').value,
+                    phone: document.getElementById('phone').value,
+                    adminUsername: document.getElementById('adminUsername').value,
+                    adminEmail: document.getElementById('adminEmail').value,
+                    adminPassword: document.getElementById('adminPassword').value
+                };
+
+                const response = await fetch('/api/organizations/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showAlert('Organization created successfully! Redirecting to login...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                } else {
+                    showAlert(result.message || 'Failed to create organization', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Auto-generate organization ID from name
+        document.getElementById('organizationName').addEventListener('input', function() {
+            const orgIdField = document.getElementById('organizationId');
+            if (!orgIdField.value) {
+                const orgId = this.value
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]/g, '_')
+                    .replace(/_+/g, '_')
+                    .replace(/^_|_$/g, '');
+                orgIdField.value = orgId;
+            }
+        });
+    </script>
+</body>
+</html>

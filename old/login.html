@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Returnhubs</title>
+  <style>
+    /* INDUSTRIAL THEME CSS - Only colors and visual styles changed */
+    :root {
+      --primary-color: #cccccc;
+      --secondary-color: #999999;
+      --accent-color: #ff4444;
+      --dark-bg: #1a1a1a;
+      --dark-surface: #2a2a2a;
+      --dark-card: #222222;
+      --light-text: #e6e6e6;
+      --muted-text: #888888;
+      --border-color: #444444;
+      --success-color: #44ff44;
+      --warning-color: #ffaa00;
+      --border-radius: 6px;
+      --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --code-font: 'Arial', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--code-font);
+    }
+
+    body {
+      background: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      color: var(--light-text);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated background elements - Industrial Style */
+    .bg-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(42, 42, 42, 0.7) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(42, 42, 42, 0.7) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    .floating-code {
+      position: absolute;
+      color: rgba(136, 136, 136, 0.1);
+      font-size: 14px;
+      z-index: -1;
+      user-select: none;
+    }
+
+    .login-container {
+      background-color: var(--dark-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      max-width: 450px;
+      overflow: hidden;
+      animation: slideIn 0.5s ease-out;
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-header {
+      background-color: rgba(34, 34, 34, 0.9);
+      color: var(--light-text);
+      padding: 30px 25px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .login-header h1 {
+      font-weight: 700;
+      font-size: 28px;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      color: var(--primary-color);
+      text-transform: uppercase;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .login-header p {
+      opacity: 0.8;
+      font-size: 14px;
+      color: var(--muted-text);
+    }
+
+    .login-form {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: var(--light-text);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 15px;
+      background-color: var(--dark-surface);
+      color: var(--light-text);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      transition: all 0.3s;
+      font-family: var(--code-font);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent-color);
+      outline: none;
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(255, 68, 68, 0.3);
+    }
+
+    .form-group input::placeholder {
+      color: var(--muted-text);
+      font-family: var(--code-font);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-color);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted-text);
+      transition: all 0.3s;
+      border-radius: 4px;
+    }
+
+    .toggle-password:hover {
+      color: var(--accent-color);
+      border-color: var(--accent-color);
+      background: rgba(255, 68, 68, 0.1);
+    }
+
+    .toggle-password svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+      color: var(--light-text);
+      border: 1px solid #444;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn:hover {
+      background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+      border-color: var(--accent-color);
+      box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      background: #374a67;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn .spinner {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top: 2px solid var(--light-text);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .btn.loading .spinner {
+      display: block;
+    }
+
+    .btn.loading .btn-text {
+      opacity: 0;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    .login-footer {
+      padding: 25px;
+      text-align: center;
+      background-color: rgba(34, 34, 34, 0.7);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .login-footer a {
+      color: var(--muted-text);
+      text-decoration: none;
+      transition: all 0.3s;
+      margin: 0 12px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .login-footer a:hover {
+      color: var(--accent-color);
+      text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
+    }
+
+    .login-footer a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent-color);
+      transition: width 0.3s;
+    }
+
+    .login-footer a:hover::after {
+      width: 100%;
+    }
+
+    /* Alert styles */
+    .alert {
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: var(--border-radius);
+      font-size: 14px;
+      display: none;
+      border-left: 4px solid transparent;
+    }
+
+    .alert.show {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .alert-error {
+      background-color: rgba(255, 68, 68, 0.15);
+      color: #ff4444;
+      border-color: #ff4444;
+    }
+
+    .alert-success {
+      background-color: rgba(68, 255, 68, 0.15);
+      color: #44ff44;
+      border-color: #44ff44;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .forgot-links {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .terminal-text {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 12px;
+      color: var(--muted-text);
+      opacity: 0.7;
+    }
+
+    @media (max-width: 480px) {
+      .forgot-links {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .login-form {
+        padding: 20px;
+      }
+
+      .login-header {
+        padding: 20px;
+      }
+    }
+
+    .form-group select {
+      width: 100%;
+      padding: 14px 15px;
+      background-color: var(--dark-surface);
+      color: var(--light-text);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      transition: all 0.3s;
+      font-family: var(--code-font);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23cccccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+    .form-group select:focus {
+      border-color: var(--accent-color);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255, 68, 68, 0.2);
+    }
+
+    .form-group select option {
+      background-color: var(--dark-card);
+      color: var(--light-text);
+      padding: 10px;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 26, 0.95);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--dark-card);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      box-shadow: var(--box-shadow);
+    }
+
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+    }
+
+    .modal h3 {
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-grid"></div>
+
+  <!-- Floating code elements -->
+  <div class="floating-code" style="top: 10%; left: 5%;">function login() {</div>
+  <div class="floating-code" style="top: 25%; right: 8%;">if (auth) {</div>
+  <div class="floating-code" style="top: 40%; left: 12%;">return success;</div>
+  <div class="floating-code" style="top: 60%; right: 15%;">} else {</div>
+  <div class="floating-code" style="top: 75%; left: 18%;">return error;</div>
+  <div class="floating-code" style="top: 90%; right: 5%;">}</div>
+
+  <div class="login-container">
+    <div class="login-header">
+      <h1>RETURNHUBS</h1>
+      <p>Access your Inventory workspace</p>
+    </div>
+
+    <form class="login-form" id="loginForm" autocomplete="off">
+      <div id="alertContainer"></div>
+
+      <!-- Super Admin Organization Selector (Hidden by default) -->
+      <div class="form-group" id="superadminOrgGroup" style="display: none;">
+        <label for="organization">Access As (Super Admin)</label>
+        <select id="organization" name="organization">
+          <option value="">Select organization to access</option>
+          <!-- Organizations will be loaded dynamically -->
+        </select>
+      </div>
+
+      <!-- Super Admin Password Verification (Hidden by default) -->
+      <div class="form-group" id="superadminPasswordGroup" style="display: none;">
+        <label for="superadminPassword">Super Admin Access Password</label>
+        <div class="password-container">
+          <input type="password" id="superadminPassword" name="superadminPassword"
+            placeholder="Enter super admin access password" autocomplete="off">
+          <button type="button" class="toggle-password" id="toggleSuperAdminPassword">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required
+          autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input type="password" id="password" name="password" placeholder="Enter your password" required
+            autocomplete="current-password">
+          <button type="button" class="toggle-password" id="togglePassword">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="loginBtn">
+        <span class="btn-text">AUTHENTICATE</span>
+        <div class="spinner"></div>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <div class="forgot-links">
+        <a href="/forgot-userid">Recover User ID</a>
+        <a href="/forgot-password">Reset Password</a>
+        <!-- Super Admin Access Link -->
+        <a href="#" id="superadminAccessLink">Super Admin Access</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Super Admin Verification Modal -->
+  <div id="superadminModal" class="modal">
+    <div class="modal-content">
+      <h3>Super Admin Access</h3>
+
+      <div class="form-group">
+        <label for="modalSuperadminPassword">Enter Super Admin Access Password</label>
+        <div class="password-container">
+          <input type="password" id="modalSuperadminPassword" placeholder="Super admin access password"
+            style="width: 100%; padding: 12px; background: var(--dark-surface); color: var(--light-text); border: 1px solid var(--border-color); border-radius: var(--border-radius);">
+          <button type="button" class="toggle-password" id="toggleModalPassword">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button type="button" id="confirmSuperadmin" class="btn"
+          style="flex: 1; background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);">
+          <span class="btn-text">VERIFY</span>
+          <div class="spinner"></div>
+        </button>
+        <button type="button" id="cancelSuperadmin" class="btn"
+          style="flex: 1; background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%); color: var(--light-text);">
+          CANCEL
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-text">
+    > Last login:
+    <script>document.write(new Date().toLocaleString())</script>
+  </div>
+
+  <script>
+    // Add floating code elements dynamically
+    function createFloatingCode() {
+      const codeSnippets = [
+        "const user = authenticate();",
+        "if (user.valid) { redirect(); }",
+        "try { validateInput(); } catch(e) { }",
+        "// Secure authentication required",
+        "import { auth } from 'security'",
+        "export default function login() {}",
+        "router.post('/login', handler)",
+        "db.query('SELECT * FROM users')",
+        "const token = jwt.sign(payload, secret)",
+        "response.status(200).json({ success: true })"
+      ];
+
+      const body = document.querySelector('body');
+
+      codeSnippets.forEach(snippet => {
+        const el = document.createElement('div');
+        el.className = 'floating-code';
+        el.textContent = snippet;
+        el.style.left = Math.random() * 80 + 5 + '%';
+        el.style.top = Math.random() * 80 + 5 + '%';
+        el.style.opacity = Math.random() * 0.1 + 0.05;
+        body.appendChild(el);
+      });
+    }
+
+    createFloatingCode();
+
+    // Clear form on page load and prevent caching
+    document.addEventListener('DOMContentLoaded', function () {
+      detectAndSetupLoginType();
+      loadOrganizations();
+      startOrganizationAutoRefresh();
+
+      // URL params check pannu for new registration
+      const urlParams = new URLSearchParams(window.location.search);
+      const newOrg = urlParams.get('newOrg');
+
+      if (newOrg) {
+        // Refresh organizations list
+        setTimeout(() => {
+          loadOrganizations();
+          // Select the new organization
+          const orgSelect = document.getElementById('organization');
+          orgSelect.value = newOrg;
+        }, 1000);
+
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      const loginForm = document.getElementById('loginForm');
+      if (loginForm) {
+        loginForm.reset();
+      }
+
+      // Additional clearing for browser autofill
+      setTimeout(() => {
+        const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+        inputs.forEach(input => {
+          if (input.value) {
+            input.value = '';
+          }
+        });
+      }, 100);
+
+      // Check if there's a session message (e.g., after logout)
+      //const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get('message');
+      const error = urlParams.get('error');
+
+      if (message) {
+        showAlert(message, 'success');
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      if (error) {
+        showAlert(error, 'error');
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      // Update terminal text with current date
+      const terminalText = document.querySelector('.terminal-text');
+      if (terminalText) {
+        terminalText.textContent = `> Last login: ${new Date().toLocaleString()}`;
+      }
+    });
+
+    // Form submission handler
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const loginBtn = document.getElementById('loginBtn');
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const superadminOrgGroup = document.getElementById('superadminOrgGroup');
+      const organization = superadminOrgGroup.style.display !== 'none' ?
+        document.getElementById('organization').value : null;
+
+      // Clear previous alerts
+      document.getElementById('alertContainer').innerHTML = '';
+
+      // Validate inputs
+      if (!username || !password) {
+        showAlert('Username and password required', 'error');
+        return;
+      }
+
+      // Super admin validation
+      if (superadminOrgGroup.style.display !== 'none') {
+        if (!organization) {
+          showAlert('Please select an organization for super admin access', 'error');
+          return;
+        }
+
+        // Additional security: Check if super admin is still verified
+        if (!superAdminVerified && localStorage.getItem('superadmin_verified') !== 'true') {
+          showAlert('Super admin access verification required', 'error');
+          switchToSuperAdminLogin();
+          return;
+        }
+      }
+
+      // Show loading state
+      loginBtn.classList.add('loading');
+      loginBtn.disabled = true;
+
+      try {
+        const requestBody = { username, password, organization: superAdminVerified ? organization : null };
+
+        // Only include organization if super admin mode
+        if (organization && superAdminVerified) {
+          requestBody.organization = organization;
+        }
+
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          showAlert('Authentication successful! Redirecting...', 'success');
+          this.reset();
+
+          // Clear super admin verification on successful login
+          localStorage.removeItem('superadmin_verified');
+          localStorage.removeItem('superadmin_mode');
+          superAdminVerified = false;
+
+          setTimeout(() => {
+            window.location.replace(data.redirectUrl || '/dashboard');
+          }, 1500);
+        } else {
+          showAlert(data.message || 'Authentication failed. Please try again.', 'error');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        showAlert('Network error. Please check your connection and try again.', 'error');
+      } finally {
+        loginBtn.classList.remove('loading');
+        loginBtn.disabled = false;
+      }
+    });
+
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alertContainer');
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type}`;
+      alertDiv.textContent = message;
+
+      alertContainer.innerHTML = '';
+      alertContainer.appendChild(alertDiv);
+
+      // Trigger animation
+      setTimeout(() => {
+        alertDiv.classList.add('show');
+      }, 10);
+
+      // Auto hide success messages
+      if (type === 'success') {
+        setTimeout(() => {
+          alertDiv.classList.remove('show');
+        }, 3000);
+      }
+    }
+
+    // Password visibility toggle
+    document.getElementById('togglePassword').addEventListener('click', function () {
+      const passwordInput = document.getElementById('password');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+
+      // Change the icon based on visibility
+      if (type === 'password') {
+        this.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        `;
+      } else {
+        this.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+          </svg>
+        `;
+      }
+    });
+
+    // Add enter key support for form fields
+    document.getElementById('username').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        document.getElementById('password').focus();
+      }
+    });
+
+    document.getElementById('password').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+      }
+    });
+
+    // Add this to your existing JavaScript
+    async function loadOrganizations() {
+      try {
+        const response = await fetch('/api/organizations/public');
+        if (!response.ok) {
+          throw new Error('Failed to fetch organizations');
+        }
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.message);
+        }
+        const organizations = result.organizations;
+        const orgSelect = document.getElementById('organization');
+
+        // Clear existing options except the first one
+        while (orgSelect.children.length > 1) {
+          orgSelect.removeChild(orgSelect.lastChild);
+        }
+
+        organizations.forEach(org => {
+          const option = document.createElement('option');
+          option.value = org.organizationId;
+          option.textContent = org.displayName || org.organizationName;
+          orgSelect.appendChild(option);
+        });
+        console.log('Organizations loaded:', organizations.length);
+        // Auto-select if URL has newOrg parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const newOrg = urlParams.get('newOrg');
+        if (newOrg) {
+          orgSelect.value = newOrg;
+          // Clean URL
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+      } catch (error) {
+        console.error('Failed to load organizations:', error);
+        // Fallback to default organizations
+        const orgSelect = document.getElementById('organization');
+        if (orgSelect.children.length <= 1) { // Only has "Select" and defaults
+          const fallbackOrgs = [
+            { value: 'default', text: 'Default Organization' },
+            { value: 'easy_tech', text: 'Easy_Tech' }
+          ];
+
+          fallbackOrgs.forEach(org => {
+            if (!Array.from(orgSelect.options).some(opt => opt.value === org.value)) {
+              const option = document.createElement('option');
+              option.value = org.value;
+              option.textContent = org.text;
+              orgSelect.appendChild(option);
+            }
+          });
+        }
+      }
+    }
+
+    // Auto-refresh organizations every 30 seconds
+    function startOrganizationAutoRefresh() {
+      setInterval(() => {
+        loadOrganizations();
+      }, 30000); // 30 seconds
+    }
+
+    function detectAndSetupLoginType() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isSuperAdminMode = (urlParams.get('superadmin') === 'true' ||
+        localStorage.getItem('superadmin_mode') === 'true') &&
+        localStorage.getItem('superadmin_verified') === 'true';
+
+      const superadminOrgGroup = document.getElementById('superadminOrgGroup');
+      const superadminAccessLink = document.getElementById('superadminAccessLink');
+
+      if (isSuperAdminMode && superAdminVerified) {
+        // Super Admin Mode - Show organization dropdown
+        superadminOrgGroup.style.display = 'block';
+        loadAllOrganizations();
+        superadminAccessLink.textContent = '← Regular Login';
+        superadminAccessLink.href = 'javascript:switchToRegularLogin()';
+      } else {
+        // Regular User Mode - Hide organization dropdown
+        superadminOrgGroup.style.display = 'none';
+        superadminAccessLink.textContent = 'Super Admin Access';
+        superadminAccessLink.href = 'javascript:switchToSuperAdminLogin()';
+
+        // Clear any previous super admin verification
+        localStorage.removeItem('superadmin_verified');
+        localStorage.removeItem('superadmin_mode');
+      }
+    }
+
+    // Switch to Super Admin mode
+    function switchToSuperAdminLogin() {
+      localStorage.setItem('superadmin_mode', 'true');
+      window.location.href = '/login?superadmin=true';
+    }
+
+    // Switch to Regular mode
+    function switchToRegularLogin() {
+      superAdminVerified = false;
+      localStorage.removeItem('superadmin_verified');
+      localStorage.removeItem('superadmin_mode');
+      window.location.href = '/login';
+    }
+
+    // Load all organizations for superadmin
+    async function loadAllOrganizations() {
+      try {
+        const response = await fetch('/api/organizations/all');
+        if (!response.ok) throw new Error('Failed to fetch organizations');
+
+        const result = await response.json();
+        if (!result.success) throw new Error(result.message);
+
+        const organizations = result.organizations;
+        const orgSelect = document.getElementById('organization');
+
+        orgSelect.innerHTML = '<option value="">Select organization to access</option>';
+
+        organizations.forEach(org => {
+          const option = document.createElement('option');
+          option.value = org.organizationId;
+          option.textContent = org.displayName || org.organizationName;
+          orgSelect.appendChild(option);
+        });
+
+      } catch (error) {
+        console.error('Failed to load organizations:', error);
+        showAlert('Failed to load organizations', 'error');
+      }
+    }
+
+    // Super Admin Access Functions
+    let superAdminVerified = false;
+
+    function showSuperAdminModal() {
+      const modal = document.getElementById('superadminModal');
+      modal.style.display = 'flex';
+      document.getElementById('modalSuperadminPassword').focus();
+    }
+
+    function hideSuperAdminModal() {
+      const modal = document.getElementById('superadminModal');
+      modal.style.display = 'none';
+      document.getElementById('modalSuperadminPassword').value = '';
+    }
+
+    // Switch to Super Admin mode with verification
+    async function switchToSuperAdminLogin() {
+      showSuperAdminModal();
+    }
+
+    // Verify super admin password
+    document.getElementById('confirmSuperadmin').addEventListener('click', async function () {
+      const password = document.getElementById('modalSuperadminPassword').value.trim();
+      const confirmBtn = document.getElementById('confirmSuperadmin');
+
+      if (!password) {
+        showAlert('Please enter super admin access password', 'error');
+        return;
+      }
+
+      // Show loading
+      confirmBtn.classList.add('loading');
+      confirmBtn.disabled = true;
+
+      try {
+        const response = await fetch('/verify-superadmin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ superadminPassword: password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          superAdminVerified = true;
+          localStorage.setItem('superadmin_verified', 'true');
+          localStorage.setItem('superadmin_mode', 'true');
+          hideSuperAdminModal();
+          showAlert('Super admin access granted!', 'success');
+
+          // Show organization dropdown
+          document.getElementById('superadminOrgGroup').style.display = 'block';
+          document.getElementById('superadminAccessLink').textContent = '← Regular Login';
+          document.getElementById('superadminAccessLink').href = 'javascript:switchToRegularLogin()';
+
+          // Load organizations
+          loadAllOrganizations();
+        } else {
+          showAlert(data.message, 'error');
+          document.getElementById('modalSuperadminPassword').value = '';
+          document.getElementById('modalSuperadminPassword').focus();
+        }
+      } catch (error) {
+        console.error('Super admin verification error:', error);
+        showAlert('Network error during verification', 'error');
+      } finally {
+        confirmBtn.classList.remove('loading');
+        confirmBtn.disabled = false;
+      }
+    });
+    // Cancel super admin access
+    document.getElementById('cancelSuperadmin').addEventListener('click', function () {
+      hideSuperAdminModal();
+      superAdminVerified = false;
+      localStorage.removeItem('superadmin_verified');
+    });
+
+    // Password toggle for modal
+    document.getElementById('toggleModalPassword').addEventListener('click', function () {
+      const passwordInput = document.getElementById('modalSuperadminPassword');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+
+      // Change icon
+      if (type === 'password') {
+        this.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+        `;
+      } else {
+        this.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+        `;
+      }
+    });
+
+    // Enter key support for modal
+    document.getElementById('modalSuperadminPassword').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        document.getElementById('confirmSuperadmin').click();
+      }
+    });
+
+    // Escape key to close modal
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        hideSuperAdminModal();
+      }
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function () {
+      detectAndSetupLoginType();
+
+      // Check if super admin was previously verified
+      if (localStorage.getItem('superadmin_verified') === 'true') {
+        superAdminVerified = true;
+      }
+    });
+  </script>
+</body>
+
+</html>

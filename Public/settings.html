@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Returnhubs System</title>
+    <style>
+        /* INDUSTRIAL THEME CSS - Matching Organization Details */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--code-font);
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .settings-container {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .settings-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .settings-header {
+            margin-bottom: 30px;
+        }
+
+        .settings-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .settings-header p {
+            color: var(--muted-text);
+            font-size: 16px;
+        }
+
+        .user-info-card {
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            color: var(--light-text);
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .user-info-card h2 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--muted-text);
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            color: var(--light-text);
+            font-weight: 600;
+        }
+
+        .back-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: none;
+            border-left: 4px solid transparent;
+        }
+
+        .alert-success {
+            background-color: rgba(68, 255, 68, 0.2);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 68, 68, 0.2);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+            color: var(--dark-bg);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 68, 68, 0.5);
+            background: linear-gradient(90deg, var(--warning-color), var(--accent-color));
+        }
+
+        .settings-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        @media (max-width: 768px) {
+            .settings-container {
+                padding: 20px;
+            }
+
+            .user-info-card {
+                padding: 15px;
+            }
+
+            .settings-actions {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <h1>👤 User Profile</h1>
+            <p>Your account information</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="user-info-card">
+            <h2>Account Details</h2>
+            <div class="info-item">
+                <span class="info-label">Username:</span>
+                <span id="usernameDisplay" class="info-value">Loading...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Email:</span>
+                <span id="emailDisplay" class="info-value">Loading...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Account Type:</span>
+                <span id="createdAtDisplay" class="info-value">Loading...</span>
+            </div>
+        </div>
+
+        <div class="settings-actions">
+            <a id="linkEmail" href="/email-settings" class="btn btn-primary">
+                📧 Configure Auto Emails
+            </a>
+
+            <a href="/mail-settings" class="btn btn-primary">
+                ⚙️ Mail Template Settings
+            </a>
+        </div>
+
+        <button class="back-btn" onclick="goBackToDashboard()">← Back to Dashboard</button>
+    </div>
+
+    <script>
+        // Function to show alert messages
+        function showAlert(message, type = 'success', duration = 3000) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+            alertDiv.style.display = 'block';
+
+            // Auto hide after duration
+            if (duration > 0) {
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                }, duration);
+            }
+        }
+
+        // Function to go back to dashboard
+        function goBackToDashboard() {
+            window.location.href = '/dashboard';
+        }
+
+        // Function to load user information and handle role-based UI
+        // settings.html la modify pannu - Debug version:
+
+        async function loadUserInfo() {
+            try {
+                console.log('🔄 Loading user info...');
+
+                const response = await fetch('/api/get-user-info', { credentials: 'include' });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('🔍 DEBUG - All user fields:', result);
+
+                    if (result.success) {
+                        // ✅ USERNAME
+                        document.getElementById('usernameDisplay').textContent = result.username || 'User';
+
+                        // ✅ EMAIL  
+                        document.getElementById('emailDisplay').textContent = result.email || 'No email available';
+
+                        // ✅ UPDATED: ACCOUNT CREATED DATE - BETTER DISPLAY
+                        let creationDate = 'Active User';
+
+                        // Check all possible date fields
+                        const dateFields = [
+                            'createdAt', 'created_at', 'created', 'account_created',
+                            'join_date', 'registration_date', 'date_created', 'signup_date'
+                        ];
+
+                        for (let field of dateFields) {
+                            if (result[field]) {
+                                creationDate = new Date(result[field]).toLocaleDateString('en-IN');
+                                console.log(`✅ Found date field: ${field} = ${creationDate}`);
+                                break;
+                            }
+                        }
+
+                        // ✅ UPDATED: If no date field found, show role-based text
+                        if (creationDate === 'Active User') {
+                            console.log('ℹ️ No date field found. Showing role-based display');
+
+                            // Show different text based on user role
+                            if (result.role === 'admin' || result.role === 'super_admin') {
+                                creationDate = 'Administrator Account';
+                            } else if (result.role === 'user') {
+                                creationDate = 'Team Member';
+                            }
+                        }
+
+                        document.getElementById('createdAtDisplay').textContent = creationDate;
+
+                        // ✅ ROLE-BASED UI - IMPORTANT: Hide buttons for normal users
+                        const userRole = result.role;
+                        const emailSettingsContainer = document.getElementById('emailSettingsContainer');
+                        const mailTemplateBtn = document.querySelector('a[href="/mail-settings"]');
+
+                        if (userRole === 'user') {
+                            // Normal user ku buttons hide
+                            if (emailSettingsContainer) {
+                                emailSettingsContainer.style.display = 'none';
+                            }
+                            if (mailTemplateBtn) {
+                                mailTemplateBtn.style.display = 'none';
+                            }
+                            console.log('👤 Normal user - Settings buttons hidden');
+                        } else if (userRole === 'admin' || userRole === 'super_admin') {
+                            // Admin & Super Admin ku buttons show
+                            if (emailSettingsContainer) {
+                                emailSettingsContainer.style.display = 'block';
+                            }
+                            if (mailTemplateBtn) {
+                                mailTemplateBtn.style.display = 'inline-block';
+                            }
+                            console.log('👑 Admin user - Settings buttons visible');
+                        }
+
+                        console.log('✅ User info loaded successfully');
+                    }
+                }
+            } catch (error) {
+                console.error('💥 Error loading user info:', error);
+            }
+        }
+
+        // Function to initialize the settings page
+        function initSettingsPage() {
+            // Load user information
+            loadUserInfo();
+            console.log('Settings page initialized');
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initSettingsPage);
+    </script>
+</body>
+
+</html>

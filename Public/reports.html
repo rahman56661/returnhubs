@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Returnhubs System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* INDUSTRIAL THEME CSS - Matching Drive Settings */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--code-font);
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--dark-surface);
+            color: var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .back-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .content-container {
+            background: var(--dark-card);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .page-title p {
+            color: var(--muted-text);
+            font-size: 1.1rem;
+        }
+
+        /* Date Range Filter Styles */
+        .date-range-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .date-range-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .date-range-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .date-range-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .date-range-btn {
+            padding: 10px 20px;
+            background: var(--dark-bg);
+            color: var(--muted-text);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .date-range-btn:hover {
+            background: var(--dark-surface);
+            color: var(--light-text);
+        }
+
+        .date-range-btn.active {
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+            color: var(--dark-bg);
+            border-color: var(--accent-color);
+        }
+
+        .custom-date-range {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .custom-date-range.active {
+            display: block;
+        }
+
+        .date-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .date-input {
+            flex: 1;
+        }
+
+        .date-input label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .date-input input {
+            width: 100%;
+            padding: 10px;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            color: var(--light-text);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .date-input input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .apply-date-range {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .apply-date-range:hover:not(:disabled) {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .apply-date-range:disabled {
+            background: var(--dark-surface);
+            color: var(--muted-text);
+            cursor: not-allowed;
+            border-color: var(--border-color);
+        }
+
+        .date-range-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--muted-text);
+            font-style: italic;
+        }
+
+        .date-range-error {
+            color: var(--accent-color);
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* Report Type Selection */
+        .report-type-section {
+            margin-bottom: 30px;
+        }
+
+        .report-type-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .report-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .report-type-card {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-type-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .report-type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .report-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .report-type-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .report-type-card p {
+            color: var(--muted-text);
+            margin-bottom: 20px;
+            font-size: 1rem;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .download-btn:hover:not(:disabled) {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .download-btn:disabled {
+            background: var(--dark-surface);
+            color: var(--muted-text);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border-color: var(--border-color);
+        }
+
+        /* Alert Styles */
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            color: var(--dark-bg);
+            font-weight: 600;
+            z-index: 3000;
+            box-shadow: var(--box-shadow);
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid transparent;
+        }
+
+        .alert.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .alert-success {
+            background-color: rgba(68, 255, 68, 0.9);
+            border-color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 68, 68, 0.9);
+            border-color: var(--accent-color);
+        }
+
+        .alert-warning {
+            background-color: rgba(255, 170, 0, 0.9);
+            border-color: var(--warning-color);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--light-text);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .date-input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .report-type-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+
+        /* New AWB Matching Section Styles */
+        .awb-matching-section {
+            margin-top: 40px;
+            padding: 25px;
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .awb-matching-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .awb-matching-section h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            background: rgba(255, 68, 68, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .upload-area.dragover {
+            background: rgba(255, 68, 68, 0.2);
+            border-color: var(--warning-color);
+        }
+
+        .upload-icon {
+            font-size: 50px;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            margin-bottom: 20px;
+            color: var(--muted-text);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .file-input-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .selected-file {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: var(--dark-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--light-text);
+        }
+
+        .remove-file {
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .template-download {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        .template-download a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        .process-btn {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            padding: 12px 30px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .process-btn:hover:not(:disabled) {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .process-btn:disabled {
+            background: var(--dark-surface);
+            color: var(--muted-text);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border-color: var(--border-color);
+        }
+
+        .results-section {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--primary-color);
+        }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--muted-text);
+            font-size: 14px;
+        }
+
+        .completed .stat-value {
+            color: var(--success-color);
+        }
+
+        .pending .stat-value {
+            color: var(--accent-color);
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .download-result-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .download-result-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .download-pending-btn {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            border: 1px solid #cc3333;
+        }
+
+        .download-pending-btn:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .results-actions {
+                flex-direction: column;
+            }
+
+            .results-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> Reports - Returnhubs System</h1>
+            <a href="/dashboard" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+
+        <div class="content-container">
+            <div class="page-title">
+                <h2>Generate Reports</h2>
+                <p>Select a date range and choose the type of report you want to download</p>
+            </div>
+
+            <!-- Date Range Filter Section -->
+            <div class="date-range-section">
+                <h3><i class="fas fa-calendar-alt"></i> Select Date Range:</h3>
+                <div class="date-range-options">
+                    <button class="date-range-btn active" data-days="0"><i class="fas fa-infinity"></i> All
+                        Dates</button>
+                    <button class="date-range-btn" data-days="3"><i class="fas fa-calendar-day"></i> Last 3
+                        Days</button>
+                    <button class="date-range-btn" data-days="7"><i class="fas fa-calendar-week"></i> Last 7
+                        Days</button>
+                    <button class="date-range-btn" data-days="30"><i class="fas fa-calendar"></i> Last 30 Days</button>
+                    <button class="date-range-btn" data-days="custom"><i class="fas fa-cog"></i> Custom Range</button>
+                </div>
+
+                <div class="custom-date-range" id="customDateRange">
+                    <div class="date-input-group">
+                        <div class="date-input">
+                            <label for="fromDate">From Date:</label>
+                            <input type="date" id="fromDate">
+                        </div>
+                        <div class="date-input">
+                            <label for="toDate">To Date:</label>
+                            <input type="date" id="toDate">
+                        </div>
+                    </div>
+                    <button class="apply-date-range" id="applyCustomRange" disabled><i class="fas fa-check"></i> Apply
+                        Range</button>
+                    <div class="date-range-info" id="dateRangeInfo"></div>
+                    <div class="date-range-error" id="dateRangeError"></div>
+                </div>
+            </div>
+
+            <!-- Report Type Selection -->
+            <div class="report-type-section">
+                <h3><i class="fas fa-file-alt"></i> Select Report Type:</h3>
+                <div class="report-type-grid">
+                    <div class="report-type-card">
+                        <div class="report-icon">
+                            <i class="fas fa-file-video"></i>
+                        </div>
+                        <h4>Recordings Sheet</h4>
+                        <p>Download a comprehensive report of all video recordings with details including AWB numbers,
+                            dates, file information, Courier Name, Return Type, and OPS Remarks</p>
+                        <button class="download-btn" id="downloadRecordingsBtn">
+                            <i class="fas fa-download"></i> Download Excel
+                        </button>
+                    </div>
+
+                    <div class="report-type-card">
+                        <div class="report-icon">
+                            <i class="fas fa-barcode"></i>
+                        </div>
+                        <h4>EAN Sheet</h4>
+                        <p>Download a detailed report of all EAN codes with their categories, AWB numbers, timestamps,
+                            Courier Name, Return Type, and OPS Remarks</p>
+                        <button class="download-btn" id="downloadEansBtn">
+                            <i class="fas fa-download"></i> Download Excel
+                        </button>
+                    </div>
+
+                    <div class="report-type-card">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h4>Summary Sheet</h4>
+                        <p>Download a summary report with statistics, overview data, performance metrics, Courier Name,
+                            Return Type, and OPS Remarks</p>
+                        <button class="download-btn" id="downloadSummaryBtn">
+                            <i class="fas fa-download"></i> Download Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- New AWB Matching Section -->
+            <div class="awb-matching-section">
+                <h3><i class="fas fa-file-excel"></i> AWB Data Matching</h3>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p class="upload-text">Upload your Excel file with AWB data for matching</p>
+                    <div class="file-input-wrapper">
+                        <button class="file-input-btn">
+                            <i class="fas fa-file-excel"></i> Choose Excel File
+                        </button>
+                        <input type="file" class="file-input" id="fileInput" accept=".xlsx, .xls">
+                    </div>
+                    <p class="template-download">
+                        <a href="#" id="downloadTemplate"><i class="fas fa-download"></i> Download template file</a>
+                    </p>
+                </div>
+
+                <div id="selectedFileContainer" class="selected-file" style="display: none;">
+                    <div class="file-info">
+                        <i class="fas fa-file-excel" style="color: #56ab2f;"></i>
+                        <span id="fileName"></span>
+                    </div>
+                    <div class="remove-file" id="removeFile">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+
+                <button class="process-btn" id="processBtn" disabled>
+                    <i class="fas fa-cogs"></i> Process and Match Data
+                </button>
+
+                <div class="results-section" id="resultsSection">
+                    <div class="results-header">
+                        <h4>Matching Results</h4>
+                        <span id="processDate"></span>
+                    </div>
+
+                    <div class="results-stats">
+                        <div class="stat-card completed">
+                            <div class="stat-value" id="completedCount">0</div>
+                            <div class="stat-label">Completed Records</div>
+                        </div>
+                        <div class="stat-card pending">
+                            <div class="stat-value" id="pendingCount">0</div>
+                            <div class="stat-label">Pending Records</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalCount">0</div>
+                            <div class="stat-label">Total Records Processed</div>
+                        </div>
+                    </div>
+
+                    <div class="results-actions">
+                        <button class="download-result-btn" id="downloadCompletedBtn">
+                            <i class="fas fa-download"></i> Download Completed Report
+                        </button>
+                        <button class="download-result-btn download-pending-btn" id="downloadPendingBtn">
+                            <i class="fas fa-download"></i> Download Pending Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"></div>
+
+    <script>
+        // Store current application state
+        let currentDateRange = 'all'; // 'all', '3', '7', '30', 'custom'
+        let customFromDate = null;
+        let customToDate = null;
+        let uploadedFile = null;
+        let matchingResults = null;
+
+        // DOM elements
+        const downloadRecordingsBtn = document.getElementById('downloadRecordingsBtn');
+        const downloadEansBtn = document.getElementById('downloadEansBtn');
+        const downloadSummaryBtn = document.getElementById('downloadSummaryBtn');
+        // New elements for AWB matching
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const selectedFileContainer = document.getElementById('selectedFileContainer');
+        const fileName = document.getElementById('fileName');
+        const removeFile = document.getElementById('removeFile');
+        const processBtn = document.getElementById('processBtn');
+        const downloadTemplate = document.getElementById('downloadTemplate');
+        const resultsSection = document.getElementById('resultsSection');
+        const completedCount = document.getElementById('completedCount');
+        const pendingCount = document.getElementById('pendingCount');
+        const totalCount = document.getElementById('totalCount');
+        const processDate = document.getElementById('processDate');
+        const downloadCompletedBtn = document.getElementById('downloadCompletedBtn');
+        const downloadPendingBtn = document.getElementById('downloadPendingBtn');
+
+        // Initialize the application
+        function initApp() {
+            console.log('Initializing reports application...');
+
+            // Load saved state from sessionStorage
+            loadSavedState();
+
+            // Set up date range filter
+            initDateRangeFilter();
+
+            // Set up download buttons
+            setupDownloadButtons();
+
+            // Set up AWB matching section
+            setupAWBMatching();
+
+            // Display any saved results
+            if (matchingResults) {
+                displayMatchingResults(matchingResults);
+            }
+        }
+
+        // Load saved state from sessionStorage
+        function loadSavedState() {
+            try {
+                const savedResults = sessionStorage.getItem('awbMatchingResults');
+                if (savedResults) {
+                    matchingResults = JSON.parse(savedResults);
+                    console.log('Loaded saved AWB matching results');
+                }
+
+                const savedFile = sessionStorage.getItem('awbMatchingFile');
+                if (savedFile) {
+                    // Note: We can't store the file itself, but we can store the filename
+                    fileName.textContent = savedFile;
+                    selectedFileContainer.style.display = 'flex';
+                    processBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error loading saved state:', error);
+            }
+        }
+
+        // Save state to sessionStorage
+        function saveState() {
+            try {
+                if (matchingResults) {
+                    sessionStorage.setItem('awbMatchingResults', JSON.stringify(matchingResults));
+                }
+
+                if (uploadedFile) {
+                    sessionStorage.setItem('awbMatchingFile', uploadedFile.name);
+                }
+            } catch (error) {
+                console.error('Error saving state:', error);
+            }
+        }
+
+        // Clear saved state
+        function clearSavedState() {
+            sessionStorage.removeItem('awbMatchingResults');
+            sessionStorage.removeItem('awbMatchingFile');
+        }
+
+        // Initialize date range filter
+        function initDateRangeFilter() {
+            // Set up date range buttons
+            document.querySelectorAll('.date-range-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const days = this.getAttribute('data-days');
+
+                    // Update active button
+                    document.querySelectorAll('.date-range-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // Show/hide custom date range
+                    if (days === 'custom') {
+                        document.getElementById('customDateRange').classList.add('active');
+                        currentDateRange = 'custom';
+                    } else {
+                        document.getElementById('customDateRange').classList.remove('active');
+                        currentDateRange = days;
+                    }
+                });
+            });
+
+            // Set up date inputs
+            const fromDateInput = document.getElementById('fromDate');
+            const toDateInput = document.getElementById('toDate');
+            const applyBtn = document.getElementById('applyCustomRange');
+
+            // Set max date to today
+            const today = new Date().toISOString().split('T')[0];
+            fromDateInput.setAttribute('max', today);
+            toDateInput.setAttribute('max', today);
+
+            // Validate date inputs
+            fromDateInput.addEventListener('change', validateCustomDateRange);
+            toDateInput.addEventListener('change', validateCustomDateRange);
+
+            // Apply custom range
+            applyBtn.addEventListener('click', function () {
+                customFromDate = new Date(fromDateInput.value);
+                customToDate = new Date(toDateInput.value);
+                // Set to end of day
+                customToDate.setHours(23, 59, 59, 999);
+
+                currentDateRange = 'custom';
+                showAlert('Custom date range applied successfully', 'success');
+            });
+        }
+
+        // Validate custom date range
+        function validateCustomDateRange() {
+            const fromDate = new Date(document.getElementById('fromDate').value);
+            const toDate = new Date(document.getElementById('toDate').value);
+            const applyBtn = document.getElementById('applyCustomRange');
+            const errorDiv = document.getElementById('dateRangeError');
+            const infoDiv = document.getElementById('dateRangeInfo');
+
+            errorDiv.textContent = '';
+            infoDiv.textContent = '';
+
+            if (!document.getElementById('fromDate').value || !document.getElementById('toDate').value) {
+                applyBtn.disabled = true;
+                return;
+            }
+
+            if (fromDate > toDate) {
+                errorDiv.textContent = 'From date cannot be after to date';
+                applyBtn.disabled = true;
+                return;
+            }
+
+            // Check if range is more than 3 months
+            const threeMonthsLater = new Date(fromDate);
+            threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+
+            if (toDate > threeMonthsLater) {
+                errorDiv.textContent = 'Date range cannot exceed 3 months';
+                applyBtn.disabled = true;
+                return;
+            }
+
+            // Calculate days in range
+            const daysDiff = Math.ceil((toDate - fromDate) / (1000 * 60 * 60 * 24)) + 1;
+            infoDiv.textContent = `${daysDiff} day${daysDiff !== 1 ? 's' : ''} selected`;
+
+            applyBtn.disabled = false;
+        }
+
+        // Set up download buttons
+        function setupDownloadButtons() {
+            downloadRecordingsBtn.addEventListener('click', () => downloadReport('recordings'));
+            downloadEansBtn.addEventListener('click', () => downloadReport('eans'));
+            downloadSummaryBtn.addEventListener('click', () => downloadReport('summary'));
+        }
+
+        // Download report function
+        async function downloadReport(type) {
+            let originalText;
+            try {
+                // Show loading state
+                originalText = document.getElementById(`download${type.charAt(0).toUpperCase() + type.slice(1)}Btn`).innerHTML;
+                document.getElementById(`download${type.charAt(0).toUpperCase() + type.slice(1)}Btn`).innerHTML = '<span class="loading"></span> Processing...';
+                document.getElementById(`download${type.charAt(0).toUpperCase() + type.slice(1)}Btn`).disabled = true;
+
+                // Prepare date range parameters
+                let params = {};
+
+                if (currentDateRange === 'custom' && customFromDate && customToDate) {
+                    params.fromDate = customFromDate.toISOString();
+                    params.toDate = customToDate.toISOString();
+                } else if (currentDateRange !== 'all' && currentDateRange !== '0') {
+                    const days = parseInt(currentDateRange);
+                    const startDate = new Date();
+                    startDate.setDate(startDate.getDate() - days);
+                    startDate.setHours(0, 0, 0, 0);
+
+                    params.fromDate = startDate.toISOString();
+                    params.toDate = new Date().toISOString();
+                }
+
+                // For recordings sheet, we want only the recordings sheet (not all three)
+                if (type === 'recordings') {
+                    params.onlyRecordings = true;
+                }
+
+                // Make API request
+                const queryString = new URLSearchParams(params).toString();
+                const response = await fetch(`/api/reports/${type}?${queryString}`, {
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+
+                    // Create filename with timestamp
+                    const timestamp = new Date().toISOString().slice(0, 10);
+                    a.download = `${type}_report_${timestamp}.xlsx`;
+
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                    showAlert(`${type} report downloaded successfully`, 'success');
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Failed to download report');
+                }
+            } catch (error) {
+                console.error(`Error downloading ${type} report:`, error);
+                showAlert(`Error downloading report: ${error.message}`, 'error');
+            } finally {
+                // Reset button state
+                if (originalText) {
+                    document.getElementById(`download${type.charAt(0).toUpperCase() + type.slice(1)}Btn`).innerHTML = originalText;
+                    document.getElementById(`download${type.charAt(0).toUpperCase() + type.slice(1)}Btn`).disabled = false;
+                }
+            }
+        }
+
+        // Set up AWB Matching section
+        function setupAWBMatching() {
+            // File upload handling
+            fileInput.addEventListener('change', handleFileSelect);
+
+            // Drag and drop handling
+            uploadArea.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function () {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function (e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+
+                if (e.dataTransfer.files.length) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+
+            // Remove file handler
+            removeFile.addEventListener('click', function () {
+                resetFileInput();
+            });
+
+            // Process button handler
+            processBtn.addEventListener('click', processAWBData);
+
+            // Template download handler
+            downloadTemplate.addEventListener('click', function (e) {
+                e.preventDefault();
+                downloadTemplateFile();
+            });
+
+            // Download completed report handler
+            downloadCompletedBtn.addEventListener('click', function () {
+                downloadMatchingResults('completed');
+            });
+
+            // Download pending report handler
+            downloadPendingBtn.addEventListener('click', function () {
+                downloadMatchingResults('pending');
+            });
+        }
+
+        // Handle file selection
+        function handleFileSelect(e) {
+            handleFiles(e.target.files);
+        }
+
+        // Process selected files
+        function handleFiles(files) {
+            if (files.length === 0) return;
+
+            const file = files[0];
+
+            // Check if file is Excel
+            if (!file.name.match(/\.(xlsx|xls)$/i)) {
+                showAlert('Please select an Excel file (.xlsx or .xls)', 'error');
+                return;
+            }
+
+            uploadedFile = file;
+            fileName.textContent = file.name;
+            selectedFileContainer.style.display = 'flex';
+            processBtn.disabled = false;
+
+            // Save file info to session storage
+            saveState();
+
+            showAlert('File selected successfully', 'success');
+        }
+
+        // Reset file input
+        function resetFileInput() {
+            fileInput.value = '';
+            uploadedFile = null;
+            selectedFileContainer.style.display = 'none';
+            processBtn.disabled = true;
+            resultsSection.style.display = 'none';
+            matchingResults = null;
+
+            // Clear saved state
+            clearSavedState();
+        }
+
+        // Add this function to clear results when needed
+        function clearResults() {
+            resultsSection.style.display = 'none';
+            matchingResults = null;
+            clearSavedState();
+        }
+
+        // Download template file
+        function downloadTemplateFile() {
+            // Create a proper Excel template with required columns for AWB matching
+            const templateData = [
+                ['AWB No', 'Return Type', 'Courier Name'],
+                ['AWB123456789', 'Return', 'Blue Dart'],
+                ['AWB987654321', 'Exchange', 'DTDC'],
+                ['AWB555666777', 'Return', 'Delhivery'],
+                ['', '', ''],
+                ['INSTRUCTIONS: Fill only these 3 columns.']
+            ];
+
+            // Convert to CSV format
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // Add BOM for Excel compatibility
+            templateData.forEach(row => {
+                // Properly escape commas and quotes in CSV
+                const escapedRow = row.map(cell => {
+                    if (cell.includes(',') || cell.includes('"') || cell.includes('\n')) {
+                        return `"${cell.replace(/"/g, '""')}"`;
+                    }
+                    return cell;
+                });
+                csvContent += escapedRow.join(",") + "\r\n";
+            });
+
+            // Create download link
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "awb_matching_template.csv");
+            document.body.appendChild(link);
+
+            // Trigger download
+            link.click();
+            document.body.removeChild(link);
+
+            showAlert('Template downloaded successfully', 'success');
+        }
+
+        // Process AWB data
+        async function processAWBData() {
+            if (!uploadedFile) {
+                showAlert('Please select a file first', 'error');
+                return;
+            }
+
+            try {
+                // Show loading state
+                const originalText = processBtn.innerHTML;
+                processBtn.innerHTML = '<span class="loading"></span> Processing...';
+                processBtn.disabled = true;
+
+                // Prepare date range parameters
+                let params = {};
+
+                if (currentDateRange === 'custom' && customFromDate && customToDate) {
+                    params.fromDate = customFromDate.toISOString();
+                    params.toDate = customToDate.toISOString();
+                } else if (currentDateRange !== 'all' && currentDateRange !== '0') {
+                    const days = parseInt(currentDateRange);
+                    const startDate = new Date();
+                    startDate.setDate(startDate.getDate() - days);
+                    startDate.setHours(0, 0, 0, 0);
+
+                    params.fromDate = startDate.toISOString();
+                    params.toDate = new Date().toISOString();
+                }
+
+                // Create form data
+                const formData = new FormData();
+                formData.append('file', uploadedFile);
+                formData.append('params', JSON.stringify(params));
+
+                // Make API request
+                const response = await fetch('/api/awb-matching', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    matchingResults = result;
+
+                    // Add timestamp to results
+                    matchingResults.processedTimestamp = new Date().toISOString();
+
+                    // Save to session storage
+                    saveState();
+
+                    // Display results
+                    displayMatchingResults(result);
+
+                    showAlert('AWB data processed successfully', 'success');
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Failed to process AWB data');
+                }
+            } catch (error) {
+                console.error('Error processing AWB data:', error);
+                showAlert(`Error processing AWB data: ${error.message}`, 'error');
+            } finally {
+                // Reset button state
+                processBtn.innerHTML = '<i class="fas fa-cogs"></i> Process and Match Data';
+                processBtn.disabled = false;
+            }
+        }
+
+        // Display matching results
+        function displayMatchingResults(results) {
+            completedCount.textContent = results.completedCount || 0;
+            pendingCount.textContent = results.pendingCount || 0;
+            totalCount.textContent = results.totalCount || 0;
+
+            // Set processed date with timestamp
+            const processedDate = results.processedTimestamp ?
+                new Date(results.processedTimestamp) : new Date();
+
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+
+            // Set current date
+            processDate.textContent = `Processed on: ${processedDate.toLocaleDateString('en-US', options)}`;
+
+            // Show results section
+            resultsSection.style.display = 'block';
+        }
+
+        // Download matching results
+        async function downloadMatchingResults(type) {
+            if (!matchingResults) {
+                showAlert('No results to download. Please process data first.', 'error');
+                return;
+            }
+
+            try {
+                // Show loading state
+                const button = type === 'completed' ? downloadCompletedBtn : downloadPendingBtn;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<span class="loading"></span> Generating...';
+                button.disabled = true;
+
+                // Prepare request body
+                const requestBody = {
+                    type: type,
+                    results: matchingResults,
+                    dateRange: {
+                        type: currentDateRange,
+                        fromDate: customFromDate,
+                        toDate: customToDate
+                    }
+                };
+
+                // Make API request
+                const response = await fetch('/api/awb-matching/download', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody),
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+
+                    // Create filename with timestamp
+                    const timestamp = new Date().toISOString().slice(0, 10);
+                    a.download = `${type}_awb_results_${timestamp}.xlsx`;
+
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                    showAlert(`${type} report downloaded successfully`, 'success');
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || `Failed to download ${type} report`);
+                }
+            } catch (error) {
+                console.error(`Error downloading ${type} report:`, error);
+                showAlert(`Error downloading report: ${error.message}`, 'error');
+            } finally {
+                // Reset button state
+                const button = type === 'completed' ? downloadCompletedBtn : downloadPendingBtn;
+                button.innerHTML = type === 'completed' ?
+                    '<i class="fas fa-download"></i> Download Completed Report' :
+                    '<i class="fas fa-download"></i> Download Pending Report';
+                button.disabled = false;
+            }
+        }
+
+        // Show alert message
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                ${message}
+            `;
+
+            alertContainer.appendChild(alert);
+
+            // Trigger reflow for animation
+            void alert.offsetWidth;
+
+            // Show alert
+            alert.classList.add('show');
+
+            // Hide alert after 5 seconds
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => {
+                    alertContainer.removeChild(alert);
+                }, 300);
+            }, 5000);
+        }
+
+        // Add this function to normalize AWB numbers for comparison
+        function normalizeAWB(awb) {
+            if (!awb) return '';
+            return awb.toString().trim().toUpperCase().replace(/\s+/g, '');
+        }
+
+        // Add this function to normalize dates for comparison
+        function normalizeDate(dateString) {
+            if (!dateString) return '';
+
+            // Handle various date formats
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString.toString().trim();
+
+            return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+        }
+
+        // In your server-side code, you would implement matching like this:
+        function matchAWBRecords(uploadedData, summaryData) {
+            const matched = [];
+            const pending = [];
+
+            uploadedData.forEach(uploadedRecord => {
+                const uploadedAWB = normalizeAWB(uploadedRecord['AWB No']);
+
+                const found = summaryData.find(summaryRecord => {
+                    const summaryAWB = normalizeAWB(summaryRecord['AWB No']);
+                    return uploadedAWB === summaryAWB;
+                });
+
+                if (found) {
+                    matched.push({
+                        awbNo: uploadedRecord['AWB No'],
+                        courierName: uploadedRecord['Courier Name'],
+                    });
+                } else {
+                    pending.push({
+                        awbNo: uploadedRecord['AWB No'],
+                        courierName: uploadedRecord['Courier Name'] || ''
+                    });
+                }
+            });
+
+            return { matched, pending };
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+
+</html>

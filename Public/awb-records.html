@@ -1,0 +1,44 @@
+<h2>📦 AWB Records</h2>
+<input type="text" id="searchBox" placeholder="Search AWB No..." onkeyup="filterTable()">
+
+<table id="awbTable" border="1">
+    <thead>
+        <tr>
+            <th>AWB No</th>
+            <th>Date</th>
+            <th>Operator</th>
+        </tr>
+    </thead>
+    <tbody id="awbTableBody">
+        <!-- Filled dynamically -->
+    </tbody>
+</table>
+
+<script>
+    async function loadAwbDetails() {
+        const params = new URLSearchParams(window.location.search);
+        const awbNo = params.get("awbNo");
+        const res = await fetch(`/api/awb-details/${awbNo}`);
+        const data = await res.json();
+
+        document.getElementById("summary").innerHTML = `
+      <p>Good: ${data.good}</p>
+      <p>Bad: ${data.bad}</p>
+      <p>Used: ${data.used}</p>
+      <p>Wrong: ${data.wrong}</p>
+      <p>Total: ${data.total}</p>
+    `;
+
+        let mediaHtml = "";
+        data.media.forEach(m => {
+            if (m.type === "video") {
+                mediaHtml += `<video src="${m.url}" controls width="300"></video>`;
+            } else {
+                mediaHtml += `<img src="${m.url}" width="200">`;
+            }
+        });
+        document.getElementById("media").innerHTML = mediaHtml;
+    }
+
+    loadAwbDetails();
+</script>

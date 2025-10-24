@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Settings - Returnhubs System</title>
+    <style>
+        /* INDUSTRIAL THEME CSS - Matching Organization Details */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--code-font);
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .email-container {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .email-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .email-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .email-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .email-header p {
+            color: var(--muted-text);
+            font-size: 16px;
+        }
+
+        .toggle-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--light-text);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(30px);
+            background-color: var(--dark-bg);
+        }
+
+        .settings-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .settings-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--muted-text);
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(255, 68, 68, 0.2);
+        }
+
+        .days-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .day-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--muted-text);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+            color: var(--dark-bg);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 68, 68, 0.5);
+            background: linear-gradient(90deg, var(--warning-color), var(--accent-color));
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: none;
+            border-left: 4px solid transparent;
+        }
+
+        .alert-success {
+            background-color: rgba(68, 255, 68, 0.2);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 68, 68, 0.2);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .email-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .email-input,
+        .name-input {
+            padding: 10px;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--light-text);
+            width: 100%;
+        }
+
+        .remove-btn {
+            padding: 10px 15px;
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .remove-btn:hover {
+            background: rgba(255, 68, 68, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .email-input-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-container {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>📧 Auto Email Settings</h1>
+            <p>Configure automatic email reports</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="toggle-section">
+            <div class="toggle-label">Enable Auto Emails</div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="autoMailToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="settings-section" id="emailSettings">
+            <h3>Email Configuration</h3>
+
+            <div class="form-group">
+                <label>Recipient Emails & Names</label>
+                <div id="emailList">
+                    <!-- Email and name inputs will be added dynamically -->
+                </div>
+                <button class="btn btn-secondary" onclick="addEmailInput()">+ Add Recipient</button>
+            </div>
+
+            <div class="form-group">
+                <label for="emailTime">Send Time</label>
+                <input type="time" id="emailTime" value="09:00">
+            </div>
+
+            <div class="form-group">
+                <label>Send On These Days</label>
+                <div class="days-selector">
+                    <label class="day-checkbox"><input type="checkbox" name="mailDays" value="Monday" checked>
+                        Mon</label>
+                    <label class="day-checkbox"><input type="checkbox" name="mailDays" value="Tuesday"> Tue</label>
+                    <label class="day-checkbox"><input type="checkbox" name="mailDays" value="Wednesday" checked>
+                        Wed</label>
+                    <label class="day-checkbox"><input type="checkbox" name="mailDays" value="Thursday"> Thu</label>
+                    <label class="day-checkbox"><input type="checkbox" name="mailDays" value="Friday" checked>
+                        Fri</label>
+                    <label class="day-checkbox"><input type="checkbox" name="mailDays" value="Saturday"> Sat</label>
+                    <label class="day-checkbox"><input type="checkbox" name="mailDays" value="Sunday"> Sun</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-secondary" onclick="goBackToSettings()">← Back to Profile</button>
+            <button class="btn btn-primary" id="saveEmailSettings">Save Settings</button>
+        </div>
+    </div>
+
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
+    <script>
+        // Function to show alert messages
+        function showAlert(message, type = 'success', duration = 3000) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+            alertDiv.style.display = 'block';
+
+            if (duration > 0) {
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                }, duration);
+            }
+        }
+
+        // Function to go back to settings
+        function goBackToSettings() {
+            window.location.href = '/settings';
+        }
+
+        // Function to add a new email input
+        function addEmailInput(email = '', name = '') {
+            const emailList = document.getElementById('emailList');
+            const emailDiv = document.createElement('div');
+            emailDiv.className = 'email-input-group';
+            emailDiv.innerHTML = `
+        <input type="text" class="name-input" placeholder="Recipient Name" value="${name}">
+        <input type="email" class="email-input" placeholder="Email Address" value="${email}">
+        <button class="remove-btn" onclick="this.parentElement.remove()">✕ Remove</button>
+    `;
+            emailList.appendChild(emailDiv);
+        }
+
+        function showToast(message, type = 'success', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.padding = '10px 20px';
+            toast.style.marginTop = '10px';
+            toast.style.borderRadius = '5px';
+            toast.style.color = '#fff';
+            toast.style.minWidth = '200px';
+            toast.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s ease';
+
+            // Set background color based on type
+            if (type === 'success') toast.style.backgroundColor = '#4CAF50';
+            else if (type === 'error') toast.style.backgroundColor = '#f44336';
+            else toast.style.backgroundColor = '#333';
+
+            container.appendChild(toast);
+
+            // Fade in
+            setTimeout(() => {
+                toast.style.opacity = '1';
+            }, 50);
+
+            // Fade out and remove after duration
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => container.removeChild(toast), 300);
+            }, duration);
+        }
+
+        // Function to load email settings
+        async function loadEmailSettings() {
+            try {
+                const response = await fetch('/api/get-email-settings', {
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const settings = await response.json();
+                    if (settings.success) {
+                        // Update form with saved settings
+                        document.getElementById('autoMailToggle').checked = settings.autoMailEnabled || false;
+                        document.getElementById('emailTime').value = settings.autoMailTime || '09:00';
+                        console.log('⏰ Setting time input to:', settings.autoMailTime); // Add this debug
+
+                        // Load multiple email recipients with names
+                        const emailList = document.getElementById('emailList');
+                        emailList.innerHTML = '';
+                        if (settings.autoMailRecipients && settings.autoMailRecipients.length > 0) {
+                            settings.autoMailRecipients.forEach(recipient => {
+                                addEmailInput(recipient.email, recipient.name);
+                            });
+                        } else {
+                            addEmailInput(); // Add one empty input by default
+                        }
+
+                        // Update day checkboxes
+                        if (settings.autoMailDays && settings.autoMailDays.length > 0) {
+                            document.querySelectorAll('input[name="mailDays"]').forEach(checkbox => {
+                                checkbox.checked = settings.autoMailDays.includes(checkbox.value);
+                            });
+                        }
+
+                        // Enable/disable settings based on toggle
+                        toggleSettingsVisibility(settings.autoMailEnabled);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading email settings:', error);
+                addEmailInput(); // Add one empty input if loading fails
+            }
+        }
+
+        
+
+        // Function to toggle settings visibility
+        function toggleSettingsVisibility(isEnabled) {
+            const settingsSection = document.getElementById('emailSettings');
+            if (isEnabled) {
+                settingsSection.style.opacity = '1';
+                settingsSection.style.pointerEvents = 'all';
+            } else {
+                settingsSection.style.opacity = '0.5';
+                settingsSection.style.pointerEvents = 'none';
+            }
+        }
+
+        // Function to save email settings
+        async function saveEmailSettings() {
+            try {
+                const autoMailEnabled = document.getElementById('autoMailToggle').checked;
+                const autoMailTime = document.getElementById('emailTime').value;
+                console.log('⏰ Frontend time value:', autoMailTime); // Add this debug
+                const autoMailDays = [];
+                document.querySelectorAll('input[name="mailDays"]:checked').forEach(checkbox => {
+                    autoMailDays.push(checkbox.value);
+                });
+
+                // Collect all email addresses with names
+                const autoMailRecipients = [];
+                document.querySelectorAll('.email-input-group').forEach(group => {
+                    const nameInput = group.querySelector('.name-input');
+                    const emailInput = group.querySelector('.email-input');
+
+                    if (nameInput && emailInput && emailInput.value.trim()) {
+                        autoMailRecipients.push({
+                            name: nameInput.value.trim() || emailInput.value.split('@')[0], // Default to email username
+                            email: emailInput.value.trim()
+                        });
+                    }
+                });
+
+                // Validate email addresses
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (autoMailEnabled && autoMailRecipients.length > 0) {
+                    for (const recipient of autoMailRecipients) {
+                        if (!emailRegex.test(recipient.email)) {
+                            showAlert(`Invalid email address: ${recipient.email}`, 'error');
+                            return;
+                        }
+                        if (!recipient.name.trim()) {
+                            showAlert(`Please enter name for email: ${recipient.email}`, 'error');
+                            return;
+                        }
+                    }
+                }
+
+                const response = await fetch('/api/save-email-settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        autoMailEnabled,
+                        autoMailRecipients, // Now an array of objects with name & email
+                        autoMailTime,
+                        autoMailDays
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showAlert('Email settings saved successfully!', 'success');
+                    showToast('Saved successfully...')
+                } else {
+                    showAlert('Failed to save email settings: ' + result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error saving email settings:', error);
+                showToast('Error saving email settings', 'error');
+                showAlert('Error saving email settings', 'error');
+            }
+        }
+
+        // Function to initialize the email settings page
+        function initEmailSettingsPage() {
+            // Load email settings
+            loadEmailSettings();
+
+            // Add event listener to toggle switch
+            document.getElementById('autoMailToggle').addEventListener('change', function () {
+                toggleSettingsVisibility(this.checked);
+            });
+
+            // Add event listener to save button
+            document.getElementById('saveEmailSettings').addEventListener('click', saveEmailSettings);
+
+            console.log('Email settings page initialized');
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initEmailSettingsPage);
+    </script>
+</body>
+
+</html>

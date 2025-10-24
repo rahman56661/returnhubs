@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<registrySnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <user>S-1-5-21-12583871-1293507040-3703153813-1000</user>
+  <keys>
+    <key installerType="InnoSetup" displayName="OpenSSL 3.5.2 (64-bit)" displayVersion="3.5.2">
+      <RegistryView>Registry64</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenSSL (64-bit)_is1</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[C:\Program Files\OpenSSL-Win64\]]></InstallLocation>
+      <UninstallString><![CDATA["C:\Program Files\OpenSSL-Win64\unins001.exe" /SILENT]]></UninstallString>
+      <HasQuietUninstall>true</HasQuietUninstall>
+      <Publisher><![CDATA[OpenSSL Win64 Installer Team]]></Publisher>
+      <InstallDate>20250913</InstallDate>
+      <InstallSource><![CDATA[]]></InstallSource>
+      <Language />
+      <Version />
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <SystemComponent>false</SystemComponent>
+      <WindowsInstaller>false</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>true</NoModify>
+      <NoRepair>true</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+    </key>
+  </keys>
+</registrySnapshot>

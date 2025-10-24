@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive Settings - Returnhubs System</title>
+    <style>
+        /* INDUSTRIAL THEME CSS - Matching Dashboard */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--code-font);
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            background: var(--dark-surface);
+            color: var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--muted-text);
+            font-weight: 600;
+        }
+
+        .settings-form {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--dark-surface);
+            color: var(--light-text);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.5;
+            font-family: 'Courier New', monospace;
+        }
+
+        .form-group small {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .sheet-config {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sheet-config::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .sheet-config h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .sheet-item {
+            background: var(--dark-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .sheet-item:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .sheet-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .test-result {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            display: none;
+            border: 1px solid;
+            font-weight: 600;
+        }
+
+        .test-success {
+            background-color: rgba(68, 255, 68, 0.9);
+            color: var(--dark-bg);
+            border-color: var(--success-color);
+        }
+
+        .test-error {
+            background-color: rgba(255, 68, 68, 0.9);
+            color: var(--dark-bg);
+            border-color: var(--accent-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .info-text {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .info-text h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .info-text p {
+            color: var(--muted-text);
+            line-height: 1.6;
+        }
+
+        .organization-info {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .organization-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .organization-info p {
+            color: var(--muted-text);
+        }
+
+        .sheet-input-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .sheet-input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--dark-surface);
+            color: var(--light-text);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .sheet-input-group input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .remove-sheet-btn {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .remove-sheet-btn:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--light-text);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Alert styles matching dashboard */
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            color: var(--dark-bg);
+            font-weight: 600;
+            z-index: 3000;
+            box-shadow: var(--box-shadow);
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .alert.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .alert-success {
+            background-color: rgba(68, 255, 68, 0.9);
+            border-color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 68, 68, 0.9);
+            border-color: var(--accent-color);
+        }
+
+        /* New styles for setup instructions */
+        .setup-instructions {
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .setup-instructions::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .setup-instructions.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .setup-header {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+
+        .setup-step {
+            background: var(--dark-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .setup-step h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .setup-step p {
+            color: var(--muted-text);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .setup-step code {
+            background: var(--dark-card);
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            color: var(--primary-color);
+            display: block;
+            margin: 10px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .setup-step ul {
+            color: var(--muted-text);
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .setup-step li {
+            margin-bottom: 5px;
+            line-height: 1.5;
+        }
+
+        .btn-info {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-info:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .sheet-headers {
+            background: var(--dark-card);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 10px;
+            border: 1px solid var(--accent-color);
+        }
+
+        .sheet-headers code {
+            background: transparent;
+            padding: 0;
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.1);
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: var(--border-radius);
+            }
+
+            .settings-form {
+                padding: 25px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                margin-right: 0;
+                justify-content: center;
+            }
+
+            .sheet-input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .sheet-input-group input {
+                width: 100%;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📁 Drive Settings</h1>
+            <p>Configure Google Drive integration for your organization</p>
+        </div>
+
+        <div class="settings-form">
+            <!-- New Setup Instructions Section -->
+            <div class="setup-instructions" id="setupInstructions">
+                <div class="setup-header">
+                    <span>📚 How to Setup Google Drive Integration</span>
+                    <button class="toggle-btn" onclick="toggleInstructions()">▲</button>
+                </div>
+
+                <div class="setup-step">
+                    <h4>🔧 Step 1: Create Google Service Account</h4>
+                    <p>1. Go to <a href="https://console.cloud.google.com/" target="_blank"
+                            style="color: #64f3d5;">Google Cloud Console</a></p>
+                    <p>2. Create a new project or select existing one</p>
+                    <p>3. Navigate to <strong>IAM & Admin → Service Accounts</strong></p>
+                    <p>4. Click <strong>"Create Service Account"</strong></p>
+                    <p>5. Fill in service account details:</p>
+                    <ul>
+                        <li><strong>Name:</strong> warehouse-inventory-system</li>
+                        <li><strong>ID:</strong> warehouse-inventory</li>
+                    </ul>
+                    <p>6. Click <strong>"Create and Continue"</strong></p>
+                    <p>7. Assign role: <strong>Owner</strong> or <strong>Editor</strong></p>
+                    <p>8. Click <strong>"Done"</strong></p>
+                </div>
+
+                <div class="setup-step">
+                    <h4>🔑 Step 2: Generate Private Key</h4>
+                    <p>1. In Service Accounts list, click on your newly created account</p>
+                    <p>2. Go to <strong>"Keys"</strong> tab</p>
+                    <p>3. Click <strong>"Add Key" → "Create new key"</strong></p>
+                    <p>4. Select <strong>"JSON"</strong> format</p>
+                    <p>5. Click <strong>"Create"</strong> - Key will download automatically</p>
+                    <p>6. Open downloaded JSON file and copy:</p>
+                    <ul>
+                        <li><strong>"client_email"</strong> → Paste in Service Account Email field</li>
+                        <li><strong>"private_key"</strong> → Paste in Private Key field</li>
+                    </ul>
+                    <code>{
+  "type": "service_account",
+  "project_id": "your-project",
+  "private_key_id": "...",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----\n",
+  "client_email": "your-service-account@project.iam.gserviceaccount.com",
+  ...
+}</code>
+                </div>
+
+                <div class="setup-step">
+                    <h4>📂 Step 3: Create Root Folder in Google Drive</h4>
+                    <p>1. Go to <a href="https://drive.google.com" target="_blank" style="color: #64f3d5;">Google
+                            Drive</a></p>
+                    <p>2. Create a new folder: <strong>"Returnhubs"</strong></p>
+                    <p>3. Right-click the folder → <strong>"Share"</strong></p>
+                    <p>4. Add your service account email with <strong>Editor</strong> access</p>
+                    <p>5. Copy the Folder ID from URL:</p>
+                    <code>https://drive.google.com/drive/folders/<strong>1ABCdefGHIjkLMNOpqrsTUVwxyz</strong></code>
+                    <p>6. Paste the ID in <strong>Root Folder ID</strong> field</p>
+                </div>
+
+                <div class="setup-step">
+                    <h4>📊 Step 4: Create Master Google Sheet</h4>
+                    <p>1. Go to <a href="https://sheets.google.com" target="_blank" style="color: #64f3d5;">Google
+                            Sheets</a></p>
+                    <p>2. Create a new spreadsheet named: <strong>"Recordings"</strong></p>
+                    <p>3. Set up the following headers in the first row:</p>
+                    <div class="sheet-headers">
+                        <code>AWB No | Courier Name | Return Type | OPS Remarks | Channel Name | Order ID | Date | Operator | Google Drive Link | Scanned Data | System SKU | Physical SKU | User Comment</code>
+                    </div>
+                    <p>4. Share the sheet with your service account email as <strong>Editor</strong></p>
+                    <p>5. Copy the Sheet ID from URL:</p>
+                    <code>https://docs.google.com/spreadsheets/d/<strong>1ABCdefGHIjkLMNOpqrsTUVwxyz</strong>/edit</code>
+                    <p>6. Paste the ID in <strong>Master Sheet ID</strong> field</p>
+                </div>
+
+                <div class="setup-step">
+                    <h4>➕ Step 5: Additional Sheets (Optional)</h4>
+                    <p>You can create separate sheets for different couriers or categories:</p>
+                    <ul>
+                        <li>Create new Google Sheets for each courier (Amazon, Delhivery, etc.)</li>
+                        <li>Use the same header structure as the master sheet</li>
+                        <li>Share each sheet with your service account</li>
+                        <li>Add sheet name and ID in the Additional Sheets section</li>
+                    </ul>
+                </div>
+
+                <!--<div class="setup-step">
+                    <h4>✅ Step 6: Test Connection</h4>
+                    <p>1. Fill all the fields with the information you collected</p>
+                    <p>2. Click <strong>"Test Connection"</strong> to verify everything works</p>
+                    <p>3. If successful, click <strong>"Save Settings"</strong></p>
+                </div>-->
+            </div>
+
+            <div class="organization-info">
+                <h4>🏢 Organization: <span id="currentOrg">Loading...</span></h4>
+                <p>These settings will only apply to your current organization.</p>
+            </div>
+
+            <div class="info-text">
+                <h4>ℹ️ Configuration Instructions</h4>
+                <p>Enter your Google Service Account details and Drive folder IDs below. Each organization can have its
+                    own unique configuration.</p>
+                <button type="button" class="btn btn-info" onclick="toggleInstructions()" style="margin-top: 10px;">
+                    📖 Show Setup Instructions
+                </button>
+            </div>
+
+            <!-- Rest of your existing form remains the same -->
+            <form id="driveSettingsForm">
+                <div class="form-group">
+                    <label for="serviceAccountEmail">📧 Service Account Email</label>
+                    <input type="email" id="serviceAccountEmail"
+                        placeholder="your-service-account@project.iam.gserviceaccount.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="privateKey">🔑 Private Key (PEM format)</label>
+                    <textarea id="privateKey"
+                        placeholder="-----BEGIN PRIVATE KEY-----\nYour private key here...\n-----END PRIVATE KEY-----"
+                        required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="rootFolderId">📂 Root Folder ID</label>
+                    <input type="text" id="rootFolderId" placeholder="1ABCdefGHIjkLMNOpqrsTUVwxyz" required>
+                    <small>This is the main folder where all your organization's files will be stored</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="masterSheetId">📊 Master Sheet ID</label>
+                    <input type="text" id="masterSheetId" placeholder="1ABCdefGHIjkLMNOpqrsTUVwxyz" required>
+                    <small>Google Sheets ID for the master recording sheet</small>
+                </div>
+
+                <div class="sheet-config">
+                    <h3>➕ Additional Sheets</h3>
+                    <p style="color: #a0a0b0; margin-bottom: 15px;">Add individual sheets for different couriers or
+                        categories</p>
+
+                    <div id="additionalSheets">
+                        <!-- Dynamic sheet items will be added here -->
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" onclick="addSheet()">
+                        ➕ Add Sheet
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <!-- <button type="button" class="btn btn-success" onclick="testConnection()">
+                        🔗 Test Connection
+                    </button>-->
+                    <button type="submit" class="btn btn-primary">
+                        💾 Save Settings
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="goToDashboard()">
+                        ← Back to Video Interface
+                    </button>
+                </div>
+            </form>
+
+            <div id="testResult" class="test-result"></div>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"></div>
+
+    <script>
+        let additionalSheets = [];
+
+        // Show alert function (matching dashboard)
+        function showAlert(message, type = 'success', duration = 3000) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.appendChild(alert);
+
+            setTimeout(() => alert.classList.add('show'), 100);
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => {
+                    if (alertContainer.contains(alert)) {
+                        alertContainer.removeChild(alert);
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        // Load current organization
+        async function loadOrganizationInfo() {
+            try {
+                const response = await fetch('/api/get-user-info');
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('currentOrg').textContent = data.organization || 'Unknown';
+                }
+            } catch (error) {
+                console.error('Error loading organization info:', error);
+            }
+        }
+
+        // Add new sheet configuration
+        function addSheet(sheetName = '', sheetIdValue = '') {
+            const sheetUniqueId = `sheet-${Date.now()}`;
+            const sheetItem = document.createElement('div');
+            sheetItem.className = 'sheet-item';
+            sheetItem.id = sheetUniqueId;
+            sheetItem.innerHTML = `
+                <div class="sheet-input-group">
+                    <input type="text" placeholder="📋 Sheet Name (e.g., Amazon)" 
+                           value="${sheetName}" class="sheet-name" style="flex: 1;">
+                    <input type="text" placeholder="🆔 Sheet ID" 
+                           value="${sheetIdValue}" class="sheet-id" style="flex: 2;">
+                    <button type="button" class="remove-sheet-btn" onclick="removeSheet('${sheetUniqueId}')">
+                        🗑️ Remove
+                    </button>
+                </div>
+            `;
+            document.getElementById('additionalSheets').appendChild(sheetItem);
+        }
+
+        // Remove sheet configuration
+        function removeSheet(sheetId) {
+            const element = document.getElementById(sheetId);
+            if (element) {
+                element.remove();
+                showAlert('Sheet configuration removed', 'success');
+            }
+        }
+
+        // Test Google Drive connection
+        async function testConnection() {
+            const testResult = document.getElementById('testResult');
+            const testBtn = event.target;
+            const originalText = testBtn.innerHTML;
+
+            testBtn.innerHTML = '<div class="loading"></div> Testing...';
+            testBtn.disabled = true;
+
+            testResult.style.display = 'block';
+            testResult.className = 'test-result';
+            testResult.textContent = 'Testing connection to Google Drive...';
+
+            const formData = getFormData();
+
+            try {
+                const response = await fetch('/api/test-drive-connection', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    testResult.className = 'test-result test-success';
+                    testResult.innerHTML = `
+                        <strong>✅ Connection Successful!</strong><br>
+                        ${result.message || 'All connections are working properly.'}
+                        ${result.details ? `<br><small>${result.details}</small>` : ''}
+                    `;
+                    showAlert('Drive connection test successful!', 'success');
+                } else {
+                    testResult.className = 'test-result test-error';
+                    testResult.innerHTML = `
+                        <strong>❌ Connection Failed</strong><br>
+                        ${result.message || 'Unable to connect to Google services.'}
+                        ${result.details ? `<br><small>${result.details}</small>` : ''}
+                    `;
+                    showAlert('Drive connection test failed', 'error');
+                }
+            } catch (error) {
+                testResult.className = 'test-result test-error';
+                testResult.innerHTML = `
+                    <strong>❌ Connection Error</strong><br>
+                    ${error.message}
+                `;
+                showAlert('Connection test error occurred', 'error');
+            } finally {
+                testBtn.innerHTML = originalText;
+                testBtn.disabled = false;
+            }
+        }
+
+        // Get form data
+        function getFormData() {
+            const sheetItems = document.querySelectorAll('.sheet-item');
+            const additionalSheets = [];
+
+            sheetItems.forEach(item => {
+                const sheetName = item.querySelector('.sheet-name').value;
+                const sheetId = item.querySelector('.sheet-id').value;
+
+                if (sheetName && sheetId) {
+                    additionalSheets.push({
+                        name: sheetName,
+                        sheetId: sheetId
+                    });
+                }
+            });
+
+            return {
+                serviceAccountEmail: document.getElementById('serviceAccountEmail').value,
+                privateKey: document.getElementById('privateKey').value,
+                rootFolderId: document.getElementById('rootFolderId').value,
+                masterSheetId: document.getElementById('masterSheetId').value,
+                additionalSheets: additionalSheets
+            };
+        }
+
+        // Save settings
+        async function saveSettings(event) {
+            if (event) event.preventDefault();
+
+            const formData = getFormData();
+            const testResult = document.getElementById('testResult');
+            const saveBtn = event ? event.target.querySelector('button[type="submit"]') : document.querySelector('button[type="submit"]');
+            const originalText = saveBtn.innerHTML;
+
+            saveBtn.innerHTML = '<div class="loading"></div> Saving...';
+            saveBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/save-drive-settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                testResult.style.display = 'block';
+
+                if (result.success) {
+                    testResult.className = 'test-result test-success';
+                    testResult.innerHTML = `
+                        <strong>✅ Settings Saved Successfully!</strong><br>
+                        ${result.message || 'Your Drive settings have been saved for your organization.'}
+                    `;
+                    showAlert('Drive settings saved successfully!', 'success');
+                } else {
+                    testResult.className = 'test-result test-error';
+                    testResult.innerHTML = `
+                        <strong>❌ Save Failed</strong><br>
+                        ${result.message || 'Unable to save settings.'}
+                    `;
+                    showAlert('Failed to save settings', 'error');
+                }
+            } catch (error) {
+                testResult.style.display = 'block';
+                testResult.className = 'test-result test-error';
+                testResult.innerHTML = `
+                    <strong>❌ Save Error</strong><br>
+                    ${error.message}
+                `;
+                showAlert('Error saving settings', 'error');
+            } finally {
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }
+        }
+
+        // Load saved settings
+        async function loadSavedSettings() {
+            try {
+                const response = await fetch('/api/get-drive-settings');
+                const result = await response.json();
+
+                if (result.success && result.settings) {
+                    const settings = result.settings;
+
+                    document.getElementById('serviceAccountEmail').value = settings.serviceAccountEmail || '';
+                    document.getElementById('privateKey').value = settings.privateKey || '';
+                    document.getElementById('rootFolderId').value = settings.rootFolderId || '';
+                    document.getElementById('masterSheetId').value = settings.masterSheetId || '';
+
+                    // Load additional sheets
+                    if (settings.additionalSheets && settings.additionalSheets.length > 0) {
+                        settings.additionalSheets.forEach(sheet => {
+                            addSheet(sheet.name, sheet.sheetId);
+                        });
+                    } else {
+                        // Add one empty sheet by default
+                        addSheet();
+                    }
+                } else {
+                    // Add one empty sheet by default if no settings
+                    addSheet();
+                }
+            } catch (error) {
+                console.error('Error loading saved settings:', error);
+                // Add one empty sheet by default on error
+                addSheet();
+            }
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = '/bad1.html';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function () {
+            loadOrganizationInfo();
+            loadSavedSettings();
+
+            // Form submission handler
+            document.getElementById('driveSettingsForm').addEventListener('submit', saveSettings);
+        });
+        // Toggle setup instructions
+        function toggleInstructions() {
+            const instructions = document.getElementById('setupInstructions');
+            const toggleBtn = document.querySelector('.toggle-btn');
+
+            if (instructions.classList.contains('show')) {
+                instructions.classList.remove('show');
+                toggleBtn.textContent = '▼';
+                document.querySelector('.btn-info').textContent = '📖 Show Setup Instructions';
+            } else {
+                instructions.classList.add('show');
+                toggleBtn.textContent = '▲';
+                document.querySelector('.btn-info').textContent = '📖 Hide Setup Instructions';
+            }
+        }
+    </script>
+</body>
+
+</html>

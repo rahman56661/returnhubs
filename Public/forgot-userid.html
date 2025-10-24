@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recover User ID - Returnhubs</title>
+    <style>
+        /* INDUSTRIAL THEME CSS - Login page style */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--code-font);
+        }
+
+        body {
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--light-text);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background elements - Industrial Style */
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(42, 42, 42, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(42, 42, 42, 0.7) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-code {
+            position: absolute;
+            color: rgba(136, 136, 136, 0.1);
+            font-size: 14px;
+            z-index: -1;
+            user-select: none;
+        }
+
+        .auth-container {
+            background-color: var(--dark-card);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            background-color: rgba(34, 34, 34, 0.9);
+            color: var(--light-text);
+            padding: 30px 25px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .auth-header h2 {
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .auth-header p {
+            opacity: 0.8;
+            font-size: 14px;
+            color: var(--muted-text);
+        }
+
+        .auth-form {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--light-text);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+            background-color: var(--dark-surface);
+            color: var(--light-text);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: var(--code-font);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow:
+                inset 0 2px 4px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: var(--muted-text);
+            font-family: var(--code-font);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #374a67;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn .spinner {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--light-text);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .btn.loading .spinner {
+            display: block;
+        }
+
+        .btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .auth-footer {
+            padding: 25px;
+            text-align: center;
+            background-color: rgba(34, 34, 34, 0.7);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .auth-footer a {
+            color: var(--muted-text);
+            text-decoration: none;
+            transition: all 0.3s;
+            margin: 0 12px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .auth-footer a:hover {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
+        }
+
+        .auth-footer a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .auth-footer a:hover::after {
+            width: 100%;
+        }
+
+        /* Alert styles */
+        .alert {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            display: none;
+            border-left: 4px solid transparent;
+        }
+
+        .alert.show {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .alert-error {
+            background-color: rgba(255, 68, 68, 0.15);
+            color: #ff4444;
+            border-color: #ff4444;
+        }
+
+        .alert-success {
+            background-color: rgba(68, 255, 68, 0.15);
+            color: #44ff44;
+            border-color: #44ff44;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .terminal-text {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 12px;
+            color: var(--muted-text);
+            opacity: 0.7;
+        }
+
+        @media (max-width: 480px) {
+            .auth-form {
+                padding: 20px;
+            }
+
+            .auth-header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+
+    <!-- Floating code elements -->
+    <div class="floating-code" style="top: 10%; left: 5%;">function recoverUserId() {</div>
+    <div class="floating-code" style="top: 25%; right: 8%;">if (email.valid) {</div>
+    <div class="floating-code" style="top: 40%; left: 12%;">sendRecoveryEmail();</div>
+    <div class="floating-code" style="top: 60%; right: 15%;">} else {</div>
+    <div class="floating-code" style="top: 75%; left: 18%;">showError();</div>
+    <div class="floating-code" style="top: 90%; right: 5%;">}</div>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>RECOVER USER ID</h2>
+            <p>Enter your email address to recover your User ID</p>
+        </div>
+
+        <form class="auth-form" id="recoveryForm" autocomplete="off">
+            <div id="alertContainer"></div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your registered email" required autocomplete="email">
+            </div>
+
+            <button type="submit" class="btn" id="recoverBtn">
+                <span class="btn-text">RECOVER USER ID</span>
+                <div class="spinner"></div>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Remember your User ID? <a href="/login">Back to Login</a></p>
+        </div>
+    </div>
+
+    <div class="terminal-text">
+        > System recovery initiated:
+        <script>document.write(new Date().toLocaleString())</script>
+    </div>
+
+    <script>
+        // Add floating code elements dynamically
+        function createFloatingCode() {
+            const codeSnippets = [
+                "const user = findUserByEmail(email);",
+                "if (user.exists) { sendRecovery(); }",
+                "try { validateEmail(); } catch(e) { }",
+                "// User ID recovery process",
+                "import { emailService } from 'utils'",
+                "export default function recoverUserId() {}",
+                "router.post('/recover', handler)",
+                "db.query('SELECT username FROM users')",
+                "const recoveryToken = crypto.randomBytes(20);",
+                "response.status(200).json({ success: true })"
+            ];
+
+            const body = document.querySelector('body');
+
+            codeSnippets.forEach(snippet => {
+                const el = document.createElement('div');
+                el.className = 'floating-code';
+                el.textContent = snippet;
+                el.style.left = Math.random() * 80 + 5 + '%';
+                el.style.top = Math.random() * 80 + 5 + '%';
+                el.style.opacity = Math.random() * 0.1 + 0.05;
+                body.appendChild(el);
+            });
+        }
+
+        createFloatingCode();
+
+        // Clear form on page load and prevent caching
+        document.addEventListener('DOMContentLoaded', function () {
+            const recoveryForm = document.getElementById('recoveryForm');
+            if (recoveryForm) {
+                recoveryForm.reset();
+            }
+
+            // Additional clearing for browser autofill
+            setTimeout(() => {
+                const inputs = document.querySelectorAll('input[type="email"]');
+                inputs.forEach(input => {
+                    if (input.value) {
+                        input.value = '';
+                    }
+                });
+            }, 100);
+
+            // Check if there's a session message
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            const error = urlParams.get('error');
+
+            if (message) {
+                showAlert(message, 'success');
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            if (error) {
+                showAlert(error, 'error');
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            // Update terminal text with current date
+            const terminalText = document.querySelector('.terminal-text');
+            if (terminalText) {
+                terminalText.textContent = `> System recovery initiated: ${new Date().toLocaleString()}`;
+            }
+        });
+
+        // Form submission handler
+        document.getElementById('recoveryForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const recoverBtn = document.getElementById('recoverBtn');
+            const email = document.getElementById('email').value.trim();
+
+            // Clear previous alerts
+            document.getElementById('alertContainer').innerHTML = '';
+
+            // Validate inputs
+            if (!email) {
+                showAlert('Email address is required', 'error');
+                return;
+            }
+
+            // Simple email validation
+            if (!email.includes('@')) {
+                showAlert('Please enter a valid email address', 'error');
+                return;
+            }
+
+            // Show loading state
+            recoverBtn.classList.add('loading');
+            recoverBtn.disabled = true;
+
+            try {
+                const response = await fetch('/forgot-userid', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert(data.message || 'Recovery email sent successfully. Check your inbox.', 'success');
+                    this.reset();
+
+                    // Update terminal text
+                    const terminalText = document.querySelector('.terminal-text');
+                    if (terminalText) {
+                        terminalText.textContent = `> Recovery email sent: ${new Date().toLocaleString()}`;
+                    }
+                } else {
+                    showAlert(data.message || 'Email not found in our system.', 'error');
+                }
+            } catch (error) {
+                console.error('Recover User ID error:', error);
+                showAlert('Network error. Please check your connection and try again.', 'error');
+            } finally {
+                recoverBtn.classList.remove('loading');
+                recoverBtn.disabled = false;
+            }
+        });
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+
+            // Trigger animation
+            setTimeout(() => {
+                alertDiv.classList.add('show');
+            }, 10);
+
+            // Auto hide success messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    alertDiv.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        // Add enter key support for form fields
+        document.getElementById('email').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('recoveryForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

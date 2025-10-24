@@ -1,0 +1,9 @@
+requirements of stream cctv camera 
+
++----+-----------------+---------------------------+-----------------------------------------------+-------------+-----------------------------------------------+
+| id | scenario        | resolution_fps            | cpu_requirement                               | ram         | gpu_requirement                                |
++----+-----------------+---------------------------+-----------------------------------------------+-------------+-----------------------------------------------+
+|  1 | Single Stream   | 1080p @ 30fps (H.265→H.264)| 2–4 CPU cores (Intel i5 / Ryzen 5 or above)   | 4–8 GB RAM  | Not required                                  |
+|  2 | Single Stream   | 2K/4K @ 30fps             | 6–8 CPU cores (Intel i7 / Ryzen 7)            | 8–16 GB RAM | Nvidia NVENC / Intel QuickSync (recommended)  |
+|  3 | Multi Stream    | 3–5 cameras (1080p/2K/4K) | 12–16 CPU cores (Server-grade CPU)            | 16–32 GB RAM| Dedicated GPU (Nvidia GTX/RTX with NVENC)     |
++----+-----------------+---------------------------+-----------------------------------------------+-------------+-----------------------------------------------+

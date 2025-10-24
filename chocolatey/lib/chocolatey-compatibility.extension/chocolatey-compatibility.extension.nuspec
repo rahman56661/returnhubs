@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>chocolatey-compatibility.extension</id>
+    <version>1.0.0</version>
+    <title>Chocolatey Compatibility Extension</title>
+    <authors>chocolatey-community</authors>
+    <owners>chocolatey-community</owners>
+    <licenseUrl>https://github.com/chocolatey-community/chocolatey-extensions/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/chocolatey-community/chocolatey-extensions</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This package provides helper functions that re-introduces helpers that were removed or updated
+in Chocolatey, as well as helpers that are not available in older version of Chocolatey CLI.
+The purpose of the package is to allow older packages to keep functioning even on later versions
+of Chocolatey CLI where certain helpers have been removed.
+
+The helpers included in this package may not have any logic to handle the functionality to keep
+existing, but rather to ensure that packages using the helpers do not stop working.
+
+**WARNING: Do NOT use helpers located in this package for removed functionality, unless absolutely necessary!**</description>
+    <summary>Extension package to provide compatibility with older versions of Chocolatey</summary>
+    <releaseNotes>## 1.0.0
+
+- Add compatibility layer for removed function `Install-ChocolateyDesktopLink`
+- Add compatibility layer for removed function `Write-ChocolateyFailure`
+- Add compatibility layer for removed function `Write-ChocolateySuccess`
+- Add compatibility layer for removed function `Write-FileUpdateLog`
+- Add support for `Get-PackageParameters`.
+- Add support for `Get-UninstallRegistryKey`.</releaseNotes>
+    <copyright>© 2022 Chocolatey Community Maintainers</copyright>
+    <tags>chocolatey-compatibility compatibility extension</tags>
+    <projectSourceUrl>https://github.com/chocolatey-community/chocolatey-extensions/tree/master/src/chocolatey-compatibility.extension</projectSourceUrl>
+    <bugTrackerUrl>https://github.com/chocolatey-community/chocolatey-extensions/issues</bugTrackerUrl>
+  </metadata>
+</package>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Processing - ReturnHubs</title>
+    <style>
+        /* INDUSTRIAL THEME */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pending-container {
+            background: var(--dark-card);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+            text-align: center;
+        }
+
+        .pending-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warning-color), #ffcc00);
+        }
+
+        .pending-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .spinner {
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--warning-color);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            color: var(--warning-color);
+            margin-bottom: 15px;
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--muted-text);
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .payment-details {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--muted-text);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .status-info {
+            background: rgba(255, 170, 0, 0.1);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border: 1px solid var(--warning-color);
+        }
+
+        .timeline {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .timeline h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .timeline-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .step-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-completed {
+            background: var(--success-color);
+            color: var(--dark-bg);
+        }
+
+        .step-current {
+            background: var(--warning-color);
+            color: var(--dark-bg);
+            animation: pulse 2s infinite;
+        }
+
+        .step-pending {
+            background: var(--border-color);
+            color: var(--muted-text);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .step-description {
+            color: var(--muted-text);
+            font-size: 14px;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to bottom, #ffaa00 0%, #cc8800 50%, #aa6600 100%);
+            color: var(--dark-bg);
+            box-shadow: 0 4px 15px rgba(255, 170, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to bottom, #ffbb00 0%, #dd9900 50%, #bb7700 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 170, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--warning-color);
+            transform: translateY(-2px);
+        }
+
+        .contact-info {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .auto-check {
+            color: var(--muted-text);
+            font-size: 14px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pending-container">
+        <div class="spinner"></div>
+        <div class="pending-icon">⏳</div>
+        <h1>Payment Processing</h1>
+        <p class="subtitle">Your payment is being verified. This may take a few minutes.</p>
+
+        <div class="payment-details">
+            <div class="detail-row">
+                <span class="detail-label">Transaction ID:</span>
+                <span class="detail-value" id="transactionId">TXN123456789</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Payment Method:</span>
+                <span class="detail-value" id="paymentMethod">Bank Transfer</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Amount:</span>
+                <span class="detail-value" id="amount">₹2,244.00</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Initiated:</span>
+                <span class="detail-value" id="initiatedDate">January 15, 2024 14:30</span>
+            </div>
+        </div>
+
+        <div class="status-info">
+            <strong>Current Status:</strong> Payment received, awaiting bank confirmation.<br>
+            <strong>Expected Activation:</strong> Within 24-48 hours
+        </div>
+
+        <div class="timeline">
+            <h3>Payment Timeline</h3>
+            <div class="timeline-step">
+                <div class="step-icon step-completed">✅</div>
+                <div class="step-content">
+                    <div class="step-title">Payment Initiated</div>
+                    <div class="step-description">You have successfully initiated the payment</div>
+                </div>
+            </div>
+            <div class="timeline-step">
+                <div class="step-icon step-current">⏳</div>
+                <div class="step-content">
+                    <div class="step-title">Verification in Progress</div>
+                    <div class="step-description">We are verifying your payment with the bank</div>
+                </div>
+            </div>
+            <div class="timeline-step">
+                <div class="step-icon step-pending">📧</div>
+                <div class="step-content">
+                    <div class="step-title">Confirmation Email</div>
+                    <div class="step-description">You will receive activation email once verified</div>
+                </div>
+            </div>
+            <div class="timeline-step">
+                <div class="step-icon step-pending">🚀</div>
+                <div class="step-content">
+                    <div class="step-title">Account Activated</div>
+                    <div class="step-description">Full access to ReturnHubs dashboard</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auto-check">
+            🔄 We are automatically checking payment status. This page will update automatically.
+        </div>
+
+        <div class="contact-info">
+            <div style="background: rgba(255, 170, 0, 0.1); padding: 15px; border-radius: var(--border-radius); border: 1px solid var(--warning-color);">
+                <strong>Need Immediate Assistance?</strong><br>
+                Contact: 📞 +91-9876543210 | 📧 billing@returnhubs.com
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="checkStatus()">
+                🔄 Check Status Now
+            </button>
+            <a href="/dashboard" class="btn btn-secondary">🏠 Go to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        function getPendingDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                type: urlParams.get('type') || 'bank',
+                amount: parseFloat(urlParams.get('amount')) || 2244.00,
+                transaction: urlParams.get('transaction') || 'TXN' + Date.now()
+            };
+        }
+
+        function getPaymentMethodText(type) {
+            const methods = {
+                'card': 'Credit/Debit Card',
+                'upi': 'UPI Payment',
+                'bank': 'Bank Transfer',
+                'cash': 'Cash Payment'
+            };
+            return methods[type] || 'Online Payment';
+        }
+
+        function checkStatus() {
+            // Simulate status check
+            const success = Math.random() > 0.7; // 30% chance of success for demo
+            
+            if (success) {
+                window.location.href = `/payment-success?type=${getPendingDetails().type}&amount=${getPendingDetails().amount}&transaction=${getPendingDetails().transaction}`;
+            } else {
+                alert('Payment is still being processed. We will notify you via email once completed.');
+            }
+        }
+
+        // Auto-check every 30 seconds
+        setInterval(checkStatus, 30000);
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const details = getPendingDetails();
+            
+            // Update details
+            document.getElementById('transactionId').textContent = details.transaction;
+            document.getElementById('paymentMethod').textContent = getPaymentMethodText(details.type);
+            document.getElementById('amount').textContent = `₹${details.amount.toFixed(2)}`;
+            document.getElementById('initiatedDate').textContent = new Date().toLocaleString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        });
+    </script>
+</body>
+</html>

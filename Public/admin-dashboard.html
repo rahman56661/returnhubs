@@ -1,0 +1,181 @@
+<!-- admin-dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - User Management</title>
+  <style>
+    /* Add your styles here */
+    .admin-container {
+      padding: 20px;
+    }
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .user-table th, .user-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    .user-table th {
+      background-color: #f2f2f2;
+    }
+    .admin-only {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Admin Dashboard - User Management</h1>
+    
+    <div id="adminContent" class="admin-only">
+      <button id="addUserBtn">Add New User</button>
+      
+      <h2>User List</h2>
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="userList">
+          <!-- Users will be populated here -->
+        </tbody>
+      </table>
+    </div>
+    
+    <div id="nonAdminMessage">
+      <p>You do not have permission to access this page.</p>
+    </div>
+  </div>
+
+  <script>
+    // Check if user is admin
+    async function checkAdminStatus() {
+      try {
+        const response = await fetch('/api/check-admin', {
+          credentials: 'include'
+        });
+        
+        const data = await response.json();
+        
+        if (data.isAdmin) {
+          document.getElementById('adminContent').style.display = 'block';
+          document.getElementById('nonAdminMessage').style.display = 'none';
+          loadUsers();
+        } else {
+          document.getElementById('adminContent').style.display = 'none';
+          document.getElementById('nonAdminMessage').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error checking admin status:', error);
+      }
+    }
+    
+    // Load users from server
+    async function loadUsers() {
+      try {
+        const response = await fetch('/admin/users', {
+          credentials: 'include'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          const userList = document.getElementById('userList');
+          userList.innerHTML = '';
+          
+          data.users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${user.username}</td>
+              <td>${user.email}</td>
+              <td>${user.role}</td>
+              <td>
+                <button onclick="editUser('${user._id}')">Edit</button>
+                <button onclick="deleteUser('${user._id}')">Delete</button>
+              </td>
+            `;
+            userList.appendChild(row);
+          });
+        }
+      } catch (error) {
+        console.error('Error loading users:', error);
+      }
+    }
+    
+    // Add these functions to your script
+    function addUser() {
+      // Implement add user functionality
+      const username = prompt('Enter username:');
+      const email = prompt('Enter email:');
+      const password = prompt('Enter temporary password:');
+      const role = prompt('Enter role (admin/user):');
+      
+      if (username && email && password) {
+        fetch('/admin/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            username,
+            email,
+            password,
+            role: role || 'user'
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('User created successfully!');
+            loadUsers();
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error creating user');
+        });
+      }
+    }
+    
+    function deleteUser(userId) {
+      if (confirm('Are you sure you want to delete this user?')) {
+        fetch(`/admin/users/${userId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('User deleted successfully!');
+            loadUsers();
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error deleting user');
+        });
+      }
+    }
+    
+    // Add event listener
+    document.getElementById('addUserBtn').addEventListener('click', addUser);
+    
+    // Check admin status when page loads
+    checkAdminStatus();
+  </script>
+</body>
+</html>

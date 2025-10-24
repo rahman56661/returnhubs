@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed - ReturnHubs</title>
+    <style>
+        /* INDUSTRIAL THEME */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .failed-container {
+            background: var(--dark-card);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+            text-align: center;
+        }
+
+        .failed-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #ff6b6b);
+        }
+
+        .failed-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            25% {transform: translateX(-5px);}
+            75% {transform: translateX(5px);}
+        }
+
+        h1 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--muted-text);
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .error-details {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--muted-text);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .reason-box {
+            background: rgba(255, 68, 68, 0.1);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border: 1px solid var(--accent-color);
+            text-align: left;
+        }
+
+        .suggestions {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .suggestions h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .suggestion {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+        }
+
+        .suggestion-icon {
+            color: var(--warning-color);
+            font-size: 20px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .contact-support {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .support-info {
+            background: rgba(255, 170, 0, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            border: 1px solid var(--warning-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="failed-container">
+        <div class="failed-icon">❌</div>
+        <h1>Payment Failed</h1>
+        <p class="subtitle">We couldn't process your payment. Please try again.</p>
+
+        <div class="error-details">
+            <div class="detail-row">
+                <span class="detail-label">Transaction ID:</span>
+                <span class="detail-value" id="transactionId">TXN123456789</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Payment Method:</span>
+                <span class="detail-value" id="paymentMethod">Credit Card</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Amount:</span>
+                <span class="detail-value" id="amount">₹2,244.00</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Date & Time:</span>
+                <span class="detail-value" id="failureDate">January 15, 2024 14:30</span>
+            </div>
+        </div>
+
+        <div class="reason-box">
+            <h3 style="color: var(--accent-color); margin-bottom: 10px;">Failure Reason</h3>
+            <p id="failureReason">Your card was declined by the bank. Please check your card details or use a different payment method.</p>
+        </div>
+
+        <div class="suggestions">
+            <h3>Suggested Solutions</h3>
+            <div class="suggestion">
+                <span class="suggestion-icon">💡</span>
+                <div>Check your card details and ensure sufficient balance</div>
+            </div>
+            <div class="suggestion">
+                <span class="suggestion-icon">💡</span>
+                <div>Try using a different debit/credit card</div>
+            </div>
+            <div class="suggestion">
+                <span class="suggestion-icon">💡</span>
+                <div>Use UPI or Bank Transfer for alternative payment</div>
+            </div>
+            <div class="suggestion">
+                <span class="suggestion-icon">💡</span>
+                <div>Contact your bank if the issue persists</div>
+            </div>
+        </div>
+
+        <div class="contact-support">
+            <div class="support-info">
+                <strong>Need Help?</strong><br>
+                Contact our support team:<br>
+                📞 +91-9876543210 | 📧 support@returnhubs.com
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/payment-method" class="btn btn-primary">🔄 Try Again</a>
+            <a href="/payment" class="btn btn-secondary">💳 Change Payment Method</a>
+        </div>
+    </div>
+
+    <script>
+        function getFailureDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                type: urlParams.get('type') || 'card',
+                amount: parseFloat(urlParams.get('amount')) || 2244.00,
+                transaction: urlParams.get('transaction') || 'TXN' + Date.now(),
+                reason: urlParams.get('reason') || 'payment_declined'
+            };
+        }
+
+        function getFailureReasonText(reason) {
+            const reasons = {
+                'card_declined': 'Your card was declined by the bank. Please check your card details or use a different payment method.',
+                'insufficient_funds': 'Insufficient funds in your account. Please use a different card or payment method.',
+                'invalid_card': 'The card details entered are invalid. Please check and try again.',
+                'network_error': 'A network error occurred. Please check your internet connection and try again.',
+                'payment_declined': 'Payment was declined. Please try again or use a different payment method.',
+                'timeout': 'Payment request timed out. Please try again.',
+                'technical_error': 'A technical error occurred. Our team has been notified. Please try again in few minutes.'
+            };
+            return reasons[reason] || 'Payment failed due to an unknown error. Please try again.';
+        }
+
+        function getPaymentMethodText(type) {
+            const methods = {
+                'card': 'Credit/Debit Card',
+                'upi': 'UPI Payment',
+                'bank': 'Bank Transfer',
+                'cash': 'Cash Payment'
+            };
+            return methods[type] || 'Online Payment';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const details = getFailureDetails();
+            
+            // Update details
+            document.getElementById('transactionId').textContent = details.transaction;
+            document.getElementById('paymentMethod').textContent = getPaymentMethodText(details.type);
+            document.getElementById('amount').textContent = `₹${details.amount.toFixed(2)}`;
+            document.getElementById('failureReason').textContent = getFailureReasonText(details.reason);
+            document.getElementById('failureDate').textContent = new Date().toLocaleString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        });
+    </script>
+</body>
+</html>

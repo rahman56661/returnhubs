@@ -1,0 +1,939 @@
+<!-- public/organizations.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizations - Warehouse System</title>
+    <style>
+        /* INDUSTRIAL THEME CSS - Matching Drive Settings */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--code-font);
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+        }
+
+        .header {
+            background: var(--dark-surface);
+            color: var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu {
+            background: var(--dark-surface);
+            padding: 15px 20px;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            gap: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--muted-text);
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            border-color: var(--accent-color);
+        }
+
+        .content-area {
+            padding: 30px;
+            min-height: calc(100vh - 160px);
+        }
+
+        .page-content {
+            background: var(--dark-card);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .create-org-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .create-org-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .organizations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .organization-card {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .organization-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .organization-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-color);
+        }
+
+        .org-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .org-name {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .org-id {
+            color: var(--muted-text);
+            font-size: 14px;
+            background: var(--dark-bg);
+            padding: 4px 8px;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+            border: 1px solid var(--border-color);
+        }
+
+        .org-description {
+            color: var(--muted-text);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .org-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--primary-color);
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .org-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .view-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .view-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .edit-btn {
+            background: var(--dark-bg);
+            color: var(--light-text);
+            border: 1px solid var(--border-color);
+        }
+
+        .edit-btn:hover {
+            background: var(--dark-surface);
+            border-color: var(--accent-color);
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+            color: var(--dark-bg);
+        }
+
+        .status-inactive {
+            background: var(--muted-text);
+            color: var(--dark-bg);
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted-text);
+            font-style: italic;
+        }
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            color: var(--dark-bg);
+            font-weight: 600;
+            z-index: 3000;
+            box-shadow: var(--box-shadow);
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .alert.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .alert-success {
+            background-color: rgba(68, 255, 68, 0.9);
+            border-color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 68, 68, 0.9);
+            border-color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .organizations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .org-details {
+                grid-template-columns: 1fr;
+            }
+
+            .org-actions {
+                flex-direction: column;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+
+        /* Organization Cards */
+        .org-card {
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .org-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .org-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-color);
+        }
+
+        .org-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .org-card-header h3 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .org-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted-text);
+            font-size: 13px;
+        }
+
+        .meta-item i {
+            width: 16px;
+            text-align: center;
+        }
+
+        .org-card-footer {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn-view,
+        .btn-edit,
+        .btn-delete {
+            padding: 8px 12px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 80px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-view {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-view:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background: var(--dark-bg);
+            color: var(--light-text);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-edit:hover {
+            background: var(--dark-surface);
+            border-color: var(--accent-color);
+        }
+
+        .btn-delete {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-delete:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Confirmation Dialog Styles */
+        .confirm-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .confirm-content {
+            background: var(--dark-card);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 400px;
+            max-width: 90%;
+            border: 1px solid var(--accent-color);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .confirm-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .confirm-content h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .confirm-content p {
+            color: var(--muted-text);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .confirm-yes {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .confirm-no {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .confirm-yes:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .confirm-no:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* User info and logout button */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Delete button styles */
+        .delete-btn {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--light-text);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>🏭 Returnhubs System</h1>
+        <div class="user-info">
+            <span>Welcome, <strong><span id="usernameDisplay">Super Admin</span></strong></span>
+          <!--  <button class="logout-btn" id="logoutBtn">🚪 Logout</button>-->
+        </div>
+    </div>
+
+    <div class="nav-menu">
+        <a href="/dashboard">🏠 Dashboard</a>
+        <a href="/organizations" class="active">🏢 Organizations</a>
+        <a href="/usermanagement">👥 Users</a>
+    </div>
+
+    <div class="content-area">
+        <div class="page-content">
+            <div class="page-header">
+                <h2>🏢 Organizations Management</h2>
+                <a href="/organization-register" class="create-org-btn">+ Create New Organization</a>
+            </div>
+
+            <p style="color: #a0a0b0; margin-bottom: 30px;">
+                Manage all organizations in the system. Each organization has its own isolated database and users.
+            </p>
+
+            <div id="organizationsContainer" class="organizations-grid">
+                <div class="loading-message">Loading organizations...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"></div>
+
+    <script>
+        let organizations = [];
+
+        // Load organizations on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 Organizations page loaded');
+            loadOrganizations();
+            setupEventListeners();
+        });
+
+        async function loadOrganizations() {
+            try {
+                console.log('🔄 Loading organizations...');
+                const response = await fetch('/api/organizations', {
+                    credentials: 'include'
+                });
+
+                const result = await response.json();
+                console.log('📊 Organizations loaded:', result.organizations?.length);
+
+                if (result.success) {
+                    organizations = result.organizations;
+                    displayOrganizations();
+                } else {
+                    showAlert('Failed to load organizations', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading organizations:', error);
+                showAlert('Network error loading organizations', 'error');
+            }
+        }
+
+        function displayOrganizations() {
+            const container = document.getElementById('organizationsContainer');
+            console.log('🔄 Displaying organizations...');
+
+            if (organizations.length === 0) {
+                container.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #a0a0b0;">
+                    <h3>No Organizations Found</h3>
+                    <p>Create your first organization to get started.</p>
+                    <a href="/organization-register" class="create-org-btn" style="margin-top: 15px;">Create Organization</a>
+                </div>
+            `;
+                return;
+            }
+
+            container.innerHTML = organizations.map(org => `
+            <div class="organization-card">
+                <div class="org-header">
+                    <div style="flex: 1;">
+                        <div class="org-name">${org.displayName}</div>
+                        <div class="org-id">ID: ${org.organizationId}</div>
+                    </div>
+                    <span class="status-badge ${org.isActive ? 'status-active' : 'status-inactive'}">
+                        ${org.isActive ? 'Active' : 'Inactive'}
+                    </span>
+                </div>
+                
+                <div class="org-description">${org.description || 'No description provided'}</div>
+                
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Database</span>
+                        <span class="detail-value">${org.databaseName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Contact</span>
+                        <span class="detail-value">${org.contactEmail}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Created</span>
+                        <span class="detail-value">${new Date(org.createdAt).toLocaleDateString()}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value">${org.isActive ? 'Active' : 'Inactive'}</span>
+                    </div>
+                </div>
+                
+                <div class="org-actions">
+                    <button class="action-btn view-btn" onclick="viewOrganization('${org._id}')">
+                        View Details
+                    </button>
+                    
+                    <!-- DELETE BUTTON - DEFAULT ORGANIZATION KU ILLA -->
+                    ${org.organizationId !== 'default' ? `
+                        <button class="action-btn delete-btn" onclick="deleteOrganization('${org._id}', '${org.displayName}')">
+                            🗑️ Delete
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+        `).join('');
+
+            console.log('✅ Organizations displayed successfully');
+        }
+
+        function viewOrganization(orgId) {
+            window.location.href = `/organization-details?id=${orgId}`;
+            const org = organizations.find(o => o._id === orgId);
+            if (org) {
+                alert(`Organization: ${org.displayName}\nID: ${org.organizationId}\nDatabase: ${org.databaseName}`);
+            }
+        }
+
+        function editOrganization(orgId) {
+            const org = organizations.find(o => o._id === orgId);
+            if (org) {
+                alert(`Edit Organization: ${org.displayName}\n(This feature coming soon)`);
+            }
+        }
+
+        function setupEventListeners() {
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                window.location.href = '/logout';
+            });
+        }
+
+        // DELETE FUNCTIONALITY - SINGLE VERSION ONLY
+        function deleteOrganization(orgId, orgName) {
+            console.log('🔴 Delete button clicked:', orgId, orgName);
+            showDeleteConfirmation(orgId, orgName);
+        }
+
+        function showDeleteConfirmation(orgId, orgName) {
+            console.log('🔄 Showing confirmation dialog for:', orgName);
+
+            // Create confirmation dialog
+            const dialog = document.createElement('div');
+            dialog.className = 'confirm-dialog';
+            dialog.id = 'confirmDialog';
+            dialog.style.display = 'flex';
+
+            dialog.innerHTML = `
+            <div class="confirm-content">
+                <h3>🗑️ Delete Organization</h3>
+                <p>Are you sure you want to delete <strong>"${orgName}"</strong>?</p>
+                <p style="font-size: 12px; color: #ff6b6b;">
+                    ⚠️ This will permanently delete all organization data, users, and cannot be undone!
+                </p>
+                <div class="confirm-buttons">
+                    <button class="confirm-no" onclick="closeConfirmDialog()">Cancel</button>
+                    <button class="confirm-yes" onclick="confirmDelete('${orgId}', '${orgName}')">Delete Organization</button>
+                </div>
+            </div>
+        `;
+
+            document.body.appendChild(dialog);
+            console.log('✅ Dialog created and shown');
+        }
+
+        function closeConfirmDialog() {
+            console.log('🔙 Closing confirmation dialog');
+            const dialog = document.getElementById('confirmDialog');
+            if (dialog) {
+                dialog.remove();
+            }
+        }
+
+        async function confirmDelete(orgId, orgName) {
+            console.log('🗑️ Confirm delete called for:', orgName);
+            closeConfirmDialog();
+
+            try {
+                console.log('🔄 Sending delete request...');
+                const response = await fetch(`/api/organizations/${orgId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+
+                console.log('📡 Response status:', response.status);
+                const result = await response.json();
+                console.log('📊 Delete result:', result);
+
+                if (result.success) {
+                    showAlert(`✅ ${result.message}`, 'success');
+                    console.log('🔄 Refreshing organizations list...');
+                    loadOrganizations(); // Refresh the list
+                } else {
+                    showAlert(`❌ ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                showAlert('❌ Error deleting organization', 'error');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alert.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            z-index: 1001;
+            font-weight: 600;
+        `;
+
+            if (type === 'success') {
+                alert.style.background = 'linear-gradient(45deg, #64f3d5, #9072ff)';
+                alert.style.color = '#0a0a12';
+            } else {
+                alert.style.background = 'linear-gradient(45deg, #ff6b6b, #ff8e8e)';
+                alert.style.color = '#0a0a12';
+            }
+
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Test function - Browser console la run pannalam
+        function testDeleteButton() {
+            console.log('🧪 Testing delete button functionality...');
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            console.log('Delete buttons found:', deleteButtons.length);
+
+            if (deleteButtons.length > 0) {
+                console.log('🔴 Simulating delete button click...');
+                deleteButtons[0].click();
+            }
+        }
+
+    </script>
+</body>
+
+</html>

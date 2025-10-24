@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<registrySnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <user>S-1-5-21-12583871-1293507040-3703153813-1000</user>
+  <keys>
+    <key installerType="Unknown" displayName="Microsoft Visual Studio Installer" displayVersion="3.14.2084.208">
+      <RegistryView>Registry64</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{6F320B93-EE3C-4826-85E0-ADF79F8D4C61}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA["C:\Program Files (x86)\Microsoft Visual Studio\Installer"]]></InstallLocation>
+      <UninstallString><![CDATA["C:\Program Files (x86)\Microsoft Visual Studio\Installer\setup.exe" /uninstall]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[]]></InstallSource>
+      <Language />
+      <Version />
+      <VersionMajor />
+      <VersionMinor />
+      <SystemComponent>false</SystemComponent>
+      <WindowsInstaller>false</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>true</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+    </key>
+    <key installerType="Unknown" displayName="Visual Studio Build Tools 2019" displayVersion="16.11.49">
+      <RegistryView>Registry32</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\943f461a</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools]]></InstallLocation>
+      <UninstallString><![CDATA["C:\Program Files (x86)\Microsoft Visual Studio\Installer\setup.exe" uninstall --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools"]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[]]></InstallSource>
+      <Language />
+      <Version />
+      <VersionMajor />
+      <VersionMinor />
+      <SystemComponent>false</SystemComponent>
+      <WindowsInstaller>false</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+    </key>
+    <key installerType="Msi" displayName="Microsoft Visual Studio Setup Configuration" displayVersion="3.7.2182.35401">
+      <RegistryView>Registry32</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{6AC5612A-D067-44B9-9C8E-2C1B3473B429}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA[MsiExec.exe /I{6AC5612A-D067-44B9-9C8E-2C1B3473B429}]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.VisualStudio.Setup.Configuration,version=3.7.2182.35401\]]></InstallSource>
+      <Language>1033</Language>
+      <Version>50792582</Version>
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <SystemComponent>true</SystemComponent>
+      <WindowsInstaller>true</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+      <LocalPackage><![CDATA[C:\Windows\Installer\af016d3.msi]]></LocalPackage>
+    </key>
+    <key installerType="Msi" displayName="vs_FileTracker_Singleton" displayVersion="16.11.34827">
+      <RegistryView>Registry32</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AB0010C0-CA62-40C7-BDED-DB2514BDCF19}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA[MsiExec.exe /I{AB0010C0-CA62-40C7-BDED-DB2514BDCF19}]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.Build.FileTracker.Msi,version=16.11.34827.16\]]></InstallSource>
+      <Language>1033</Language>
+      <Version>269191179</Version>
+      <VersionMajor>16</VersionMajor>
+      <VersionMinor>11</VersionMinor>
+      <SystemComponent>true</SystemComponent>
+      <WindowsInstaller>true</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+      <LocalPackage><![CDATA[C:\Windows\Installer\af016cf.msi]]></LocalPackage>
+    </key>
+    <key installerType="Msi" displayName="Microsoft Visual Studio Setup WMI Provider" displayVersion="3.7.2182.35401">
+      <RegistryView>Registry32</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{E281F6E2-136B-4AF0-895B-253279711697}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA[MsiExec.exe /I{E281F6E2-136B-4AF0-895B-253279711697}]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.VisualStudio.Setup.WMIProvider,version=3.7.2182.35401\]]></InstallSource>
+      <Language>1033</Language>
+      <Version>50792582</Version>
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <SystemComponent>true</SystemComponent>
+      <WindowsInstaller>true</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+      <LocalPackage><![CDATA[C:\Windows\Installer\af016d7.msi]]></LocalPackage>
+    </key>
+  </keys>
+</registrySnapshot>

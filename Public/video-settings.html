@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Settings - Organization Configuration</title>
+    <style>
+        /* INDUSTRIAL THEME CSS - Matching Dashboard */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--code-font);
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+        }
+
+        .header-bar {
+            background: var(--dark-card);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .back-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .settings-section {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .settings-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .settings-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .dropdown-group {
+            margin-bottom: 25px;
+        }
+
+        .dropdown-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .dropdown-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            background: var(--dark-surface);
+            color: var(--light-text);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .option-item:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .option-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--dark-bg);
+            color: var(--light-text);
+            margin-right: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .option-input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+        }
+
+        .remove-btn {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: scale(1.1);
+        }
+
+        .add-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .save-btn {
+            background: linear-gradient(to bottom, #555 0%, #444 50%, #333 100%);
+            color: var(--light-text);
+            border: 1px solid #444;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .reset-btn {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: var(--light-text);
+            border: 1px solid #cc3333;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .save-btn:hover {
+            background: linear-gradient(to bottom, #666 0%, #555 50%, #444 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .alert-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            color: var(--dark-bg);
+            font-weight: 600;
+            z-index: 10000;
+            box-shadow: var(--box-shadow);
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .alert-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .alert-success {
+            background-color: rgba(68, 255, 68, 0.9);
+            border-color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 68, 68, 0.9);
+            border-color: var(--accent-color);
+        }
+
+        .organization-info {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .organization-info h3 {
+            color: var(--primary-color);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header-bar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .settings-section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header-bar {
+                padding: 15px;
+            }
+
+            .settings-section {
+                padding: 15px;
+            }
+
+            .option-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .option-input {
+                margin-right: 0;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-bar">
+        <button class="back-btn" onclick="goBackToMain()">
+            ← Back to Video Interface
+        </button>
+        <h1 style="margin: 0; color: rgba(170, 188, 193, 0.936);">Organization Video Settings
+            <div class="organization-info" style="font-size: 14px; color: #6a6ac0; margin-top: 5px;"
+                id="currentOrganization">
+                <h3 id="organizationDisplay">Organization: Loading...</h3>
+            </div>
+        </h1>
+        <div style="width: 100px;"></div> <!-- Spacer for alignment -->
+    </div>
+
+    <div class="container">
+        <!-- Courier Name Settings -->
+        <div class="settings-section">
+            <h2>📦 Courier Name Options</h2>
+            <div class="dropdown-group">
+                <label>Available Courier Names:</label>
+                <div id="courierNameOptions">
+                    <!-- Options will be dynamically added here -->
+                </div>
+                <button class="add-btn" onclick="addOption('courierName')">+ Add Courier</button>
+            </div>
+        </div>
+
+        <!-- Return Type Settings -->
+        <div class="settings-section">
+            <h2>🔄 Return Type Options</h2>
+            <div class="dropdown-group">
+                <label>Available Return Types:</label>
+                <div id="returnTypeOptions">
+                    <!-- Options will be dynamically added here -->
+                </div>
+                <button class="add-btn" onclick="addOption('returnType')">+ Add Return Type</button>
+            </div>
+        </div>
+
+        <!-- OPS Remarks Settings -->
+        <div class="settings-section">
+            <h2>📝 OPS Remarks Options</h2>
+            <div class="dropdown-group">
+                <label>Available OPS Remarks:</label>
+                <div id="opsRemarksOptions">
+                    <!-- Options will be dynamically added here -->
+                </div>
+                <button class="add-btn" onclick="addOption('opsRemarks')">+ Add OPS Remark</button>
+            </div>
+        </div>
+
+        <!-- Channel Name Settings -->
+        <div class="settings-section">
+            <h2>🛒 Channel Name Options</h2>
+            <div class="dropdown-group">
+                <label>Available Channel Names:</label>
+                <div id="channelNameOptions">
+                    <!-- Options will be dynamically added here -->
+                </div>
+                <button class="add-btn" onclick="addOption('channelName')">+ Add Channel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="save-btn" onclick="saveSettings()">💾 Save Settings</button>
+        <button class="reset-btn" onclick="resetToDefault()">🔄 Reset to Default</button>
+    </div>
+
+    <div id="alertContainer"></div>
+
+    <script>
+
+        // Organization-specific settings
+        let organizationSettings = {
+            courierName: [],
+            returnType: [],
+            opsRemarks: [],
+            channelName: []
+        };
+
+        // Default options for each organization
+        const defaultSettings = {
+            courierName: ['Amazon', 'Delhivery', 'DTDC', 'Ecom', 'Ekart', 'Franch Express', 'India Post', 'Shadowfax', 'Smarter', 'Tracon', 'Xpressbees', 'Other'],
+            returnType: ['RTO', 'RVP', 'Other'],
+            opsRemarks: ['Other Brand', 'Good', 'Damaged', 'Tag Missing', 'SKU Mismatch', 'Missing Items', 'Size Mismatch', 'Color Mismatch', 'Ean Mismatch'],
+            channelName: ['Shopify', 'Amazon', 'Flipkart', 'Myntra', 'Nykaa', 'Other']
+        };
+
+        // Initialize the settings page
+        async function initSettings() {
+            await loadOrganizationInfo();
+            await loadOrganizationSettings();
+            //renderAllOptions();
+
+            // Add event listeners for Enter key
+            setupEnterKeyHandlers();
+        }
+
+        // Load organization info
+        async function loadOrganizationInfo() {
+            try {
+                const response = await fetch('/api/get-user-info');
+                const userInfo = await response.json();
+
+                console.log('🔍 User info response:', userInfo);
+
+                if (userInfo && (userInfo.organization || userInfo._id)) {
+                    const orgName = userInfo.organization || userInfo._id;
+                    document.getElementById('organizationDisplay').textContent =
+                        `Organization: ${orgName}`;
+                    console.log('✅ Organization loaded:', orgName);
+                } else {
+                    document.getElementById('organizationDisplay').textContent =
+                        'Organization: Not found in user info';
+                    console.log('❌ Organization not found in user info');
+                }
+            } catch (error) {
+                console.error('❌ Error loading organization info:', error);
+                document.getElementById('organizationDisplay').textContent =
+                    'Organization: Error loading';
+            }
+        }
+
+        // Load organization-specific settings from server - FIXED
+        async function loadOrganizationSettings() {
+            try {
+                const response = await fetch('/api/get-organization-settings');
+                const result = await response.json();
+
+                console.log('📥 Loaded settings from server:', result);
+
+                if (result.success) {
+                    // Directly use the result object, not result.settings
+                    organizationSettings = {
+                        courierName: result.courierName || [],
+                        returnType: result.returnType || [],
+                        opsRemarks: result.opsRemarks || [],
+                        channelName: result.channelName || []
+                    };
+                    console.log('✅ Settings loaded successfully:', organizationSettings);
+                } else {
+                    // Use default settings if none found
+                    organizationSettings = JSON.parse(JSON.stringify(defaultSettings));
+                    console.log('⚠️ Using default settings - no saved settings found');
+                }
+
+                // Always render the options after loading
+                renderAllOptions();
+
+            } catch (error) {
+                console.error('❌ Error loading organization settings:', error);
+                // Fallback to default settings
+                organizationSettings = JSON.parse(JSON.stringify(defaultSettings));
+                renderAllOptions();
+            }
+        }
+
+        // Render all options in the UI
+        function renderAllOptions() {
+            renderOptions('courierName', 'courierNameOptions');
+            renderOptions('returnType', 'returnTypeOptions');
+            renderOptions('opsRemarks', 'opsRemarksOptions');
+            renderOptions('channelName', 'channelNameOptions');
+
+            // Update counts
+            updateOptionCounts();
+        }
+
+        // Render options for a specific dropdown - FIXED
+        function renderOptions(settingKey, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error(`❌ Container not found: ${containerId}`);
+                return;
+            }
+
+            container.innerHTML = '';
+
+            // Ensure the array exists
+            if (!organizationSettings[settingKey] || !Array.isArray(organizationSettings[settingKey])) {
+                organizationSettings[settingKey] = [];
+            }
+
+            // Render each option
+            organizationSettings[settingKey].forEach((option, index) => {
+                const optionItem = document.createElement('div');
+                optionItem.className = 'option-item';
+                optionItem.innerHTML = `
+                <input type="text" 
+                       class="option-input" 
+                       value="${option}" 
+                       onchange="updateOption('${settingKey}', ${index}, this.value)"
+                       onkeypress="handleOptionKeypress(event, '${settingKey}', ${index})"
+                       placeholder="Enter option value">
+                <button type="button" class="remove-btn" onclick="removeOption('${settingKey}', ${index})">×</button>
+            `;
+                container.appendChild(optionItem);
+            });
+
+            console.log(`✅ Rendered ${organizationSettings[settingKey].length} options for ${settingKey}`);
+        }
+
+        // Add new option to a dropdown - FIXED
+        function addOption(settingKey) {
+            if (!organizationSettings[settingKey]) {
+                organizationSettings[settingKey] = [];
+            }
+
+            // Add new empty option
+            organizationSettings[settingKey].push('New Option');
+            setTimeout(() => renderOptions(settingKey, `${settingKey}Options`), 10);
+
+
+            // Focus on the new input after a small delay
+            setTimeout(() => {
+                const container = document.getElementById(`${settingKey}Options`);
+                if (container && container.lastElementChild) {
+                    const lastInput = container.lastElementChild.querySelector('.option-input');
+                    if (lastInput) {
+                        lastInput.focus();
+                        lastInput.select();
+                    }
+                }
+            }, 100);
+
+            console.log(`➕ Added new option to ${settingKey}`);
+        }
+
+        // Update an existing option - FIXED
+        function updateOption(settingKey, index, value) {
+            if (!organizationSettings[settingKey]) {
+                organizationSettings[settingKey] = [];
+            }
+
+            if (index >= 0 && index < organizationSettings[settingKey].length) {
+                organizationSettings[settingKey][index] = value.trim();
+                console.log(`✏️ Updated ${settingKey}[${index}] to: ${value.trim()}`);
+            }
+        }
+
+        // Handle Enter key in option inputs
+        function handleOptionKeypress(event, settingKey, index) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                // Move to next input or add new option if last one
+                const inputs = document.querySelectorAll(`#${settingKey}Options .option-input`);
+                if (index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                } else {
+                    addOption(settingKey);
+                }
+            }
+        }
+
+        // Remove an option - FIXED
+        function removeOption(settingKey, index) {
+            if (!organizationSettings[settingKey] || organizationSettings[settingKey].length === 0) {
+                return;
+            }
+
+            if (organizationSettings[settingKey].length > 1) {
+                const removedOption = organizationSettings[settingKey][index];
+                organizationSettings[settingKey].splice(index, 1);
+                setTimeout(() => renderOptions(settingKey, `${settingKey}Options`), 10);
+                console.log(`🗑️ Removed ${settingKey}[${index}]: ${removedOption}`);
+            } else {
+                showAlert('At least one option is required', 'error');
+            }
+        }
+
+        // 🔥 SINGLE SAVE FUNCTION - FIXED
+        async function saveSettings() {
+            try {
+                console.log('💾 Starting save process...', organizationSettings);
+
+                // Validate and clean settings
+                const cleanedSettings = {};
+                for (const [key, options] of Object.entries(organizationSettings)) {
+                    const validOptions = options
+                        .filter(opt => opt && opt.trim() !== '')
+                        .map(opt => opt.trim());
+
+                    if (validOptions.length === 0) {
+                        showAlert(`Please add at least one valid option for ${key}`, 'error');
+                        return;
+                    }
+                    cleanedSettings[key] = validOptions;
+                }
+
+                console.log('📦 Sending cleaned settings:', cleanedSettings);
+
+                const response = await fetch('/api/save-organization-settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        settings: cleanedSettings
+                    })
+                });
+
+                const result = await response.json();
+                console.log('📨 Save response:', result);
+
+                if (result.success) {
+                    showAlert('✅ Settings saved successfully! All dropdowns updated.', 'success');
+
+                    // Update local settings with cleaned version
+                    organizationSettings = cleanedSettings;
+                    renderAllOptions();
+
+                    // Force refresh main page dropdowns
+                    if (window.opener && typeof window.opener.updateDropdownsFromSettings === 'function') {
+                        window.opener.updateDropdownsFromSettings();
+                    }
+
+                    // Also try to refresh parent window if it's bad1.html
+                    setTimeout(() => {
+                        try {
+                            if (window.opener && window.opener.location.href.includes('bad1.html')) {
+                                window.opener.location.reload();
+                            }
+                        } catch (e) {
+                            console.log('Cannot refresh parent window');
+                        }
+                    }, 1000);
+
+                } else {
+                    showAlert('❌ Failed to save settings: ' + (result.message || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                console.error('❌ Error saving settings:', error);
+                showAlert('❌ Error saving settings: ' + error.message, 'error');
+            }
+        }
+
+        // Reset to default settings - FIXED
+        async function resetToDefault() {
+            if (confirm('Are you sure you want to reset to default settings? This will replace all your current options.')) {
+                organizationSettings = JSON.parse(JSON.stringify(defaultSettings));
+                renderAllOptions();
+                showAlert('Reset to default settings', 'success');
+                setTimeout(() => {
+                    const alertBox = document.getElementById('alertBox');
+                    if (alertBox) alertBox.style.display = 'none';
+                }, 3000);
+                console.log('🔄 Reset to default settings');
+            }
+        }
+
+        // Update option counts display
+        function updateOptionCounts() {
+            const counts = {
+                courierName: organizationSettings.courierName?.length || 0,
+                returnType: organizationSettings.returnType?.length || 0,
+                opsRemarks: organizationSettings.opsRemarks?.length || 0,
+                channelName: organizationSettings.channelName?.length || 0
+            };
+
+            // Update count displays if they exist
+            Object.keys(counts).forEach(key => {
+                const countElement = document.getElementById(`${key}Count`);
+                if (countElement) {
+                    countElement.textContent = `${counts[key]} options`;
+                }
+            });
+        }
+
+        // Setup Enter key handlers for quick saving
+        function setupEnterKeyHandlers() {
+            document.addEventListener('keydown', function (event) {
+                if (event.ctrlKey && event.key === 's') {
+                    event.preventDefault();
+                    saveSettings();
+                }
+            });
+        }
+
+        // Show alert message - IMPROVED
+        function showAlert(message, type = 'success') {
+            // Remove existing alerts first
+            const existingAlerts = document.querySelectorAll('.alert-toast');
+            existingAlerts.forEach(alert => alert.remove());
+
+            const alert = document.createElement('div');
+            alert.className = `alert-toast alert-${type}`;
+            alert.innerHTML = `
+            <div class="alert-content">
+                <span class="alert-message">${message}</span>
+                <button class="alert-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+        `;
+
+            // Add styles if not exists
+            if (!document.querySelector('#alert-styles')) {
+                const styles = document.createElement('style');
+                styles.id = 'alert-styles';
+                styles.textContent = `
+                .alert-toast {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#d4edda' : '#f8d7da'};
+                    color: ${type === 'success' ? '#155724' : '#721c24'};
+                    padding: 12px 20px;
+                    border-radius: 5px;
+                    border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
+                    z-index: 10000;
+                    max-width: 400px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    animation: slideIn 0.3s ease-out;
+                }
+                .alert-content {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .alert-close {
+                    background: none;
+                    border: none;
+                    font-size: 18px;
+                    cursor: pointer;
+                    margin-left: 10px;
+                    color: inherit;
+                }
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+                document.head.appendChild(styles);
+            }
+
+            document.body.appendChild(alert);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alert.parentElement) {
+                    alert.style.animation = 'slideOut 0.3s ease-in';
+                    setTimeout(() => alert.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        // Navigation functions
+        function goBackToMain() {
+            window.location.href = '/bad1.html';
+        }
+
+        // Quick test function for debugging
+        function debugSettings() {
+            console.log('🐛 Current organizationSettings:', organizationSettings);
+            console.log('🐛 Current DOM state:', {
+                courierOptions: document.getElementById('courierNameOptions')?.children.length,
+                returnTypeOptions: document.getElementById('returnTypeOptions')?.children.length,
+                opsRemarksOptions: document.getElementById('opsRemarksOptions')?.children.length,
+                channelNameOptions: document.getElementById('channelNameOptions')?.children.length
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 Video Settings Page Initializing...');
+            initSettings();
+
+            // Add debug button in development
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                const debugBtn = document.createElement('button');
+                debugBtn.textContent = '🐛 Debug';
+                debugBtn.style.position = 'fixed';
+                debugBtn.style.bottom = '10px';
+                debugBtn.style.right = '10px';
+                debugBtn.style.zIndex = '9999';
+                debugBtn.onclick = debugSettings;
+                document.body.appendChild(debugBtn);
+            }
+        });
+    </script>
+</body>
+
+</html>

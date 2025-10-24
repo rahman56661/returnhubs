@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>openssl</id>
+    <version>3.5.2</version>
+    <title>OpenSSL</title>
+    <authors>OpenSSL Team.</authors>
+    <owners>chtof</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://www.openssl.org/source/license-openssl-ssleay.txt</licenseUrl>
+    <projectUrl>https://www.openssl.org/</projectUrl>
+    <description>The Win32/Win64 OpenSSL Installation Project is dedicated to providing a simple installation of OpenSSL for Microsoft Windows. It is easy to set up and easy to use through the simple, effective installer. No need to compile anything or jump through any hoops, just click a few times and it is installed, leaving you to doing real work. Download it today! Note that these are default builds of OpenSSL and subject to local and state laws. More information can be found in the legal agreement of the installation.
+
+LEGAL NOTICE: This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (http://www.openssl.org/)</description>
+    <summary>The Win32/Win64 OpenSSL Installation Project is dedicated to providing a simple installation of OpenSSL for Microsoft Windows.</summary>
+    <releaseNotes>https://www.openssl.org/news/newslog.html</releaseNotes>
+    <copyright>Copyright © 1999-2018, OpenSSL Software Foundation.</copyright>
+    <tags>openssl</tags>
+    <projectSourceUrl>https://github.com/openssl/openssl</projectSourceUrl>
+    <packageSourceUrl>https://github.com/chtof/chocolatey-packages/tree/master/automatic/openssl</packageSourceUrl>
+    <docsUrl>https://www.openssl.org/docs</docsUrl>
+    <mailingListUrl>https://www.openssl.org/community/mailinglists.html</mailingListUrl>
+    <bugTrackerUrl>https://github.com/openssl/openssl/issues</bugTrackerUrl>
+    <dependencies>
+      <dependency id="vcredist2015" version="14.0.24215.20170201" />
+    </dependencies>
+  </metadata>
+</package>

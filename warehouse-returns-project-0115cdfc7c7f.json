@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "warehouse-returns-project",
+  "private_key_id": "0115cdfc7c7fbf312cb4d0c0e865f9749f329a0b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCm7ERN/EtpnFwd\nPqlExz1jnFlOLWbhX2V+7kwpZ59cCMgW1GDAQht30SfXf+1x7zXVrK+EI0v9aiAh\nKPb2TywDQglyFmXlfJdvhqG60phtD5ViW3j2KhxeAdHlvMzuYwLsTxqOX1SfJKeI\nTurwTqcGkiS+mBTiKyUUEWnoZo0R783r8aVPVMCO0goX2gKmHcWHmxhHSTA6aFFl\nwRt286ZWsr5uNn750qHAcjv4E/bSnwodLVP4xuZXqiSCGN1ft+uYHlHEFlsJgr8v\n7rYdeZ+P93dRC0nlZLUCwt2M1NxH6NsA0uedDWU+msWAvqTTjziZSzWygEHm20Yo\ncLsSX38zAgMBAAECggEAN7VCVoSM5oI4e8od08ZqxoO3ik+8thqQVPxSjr72gFCt\n9nCKmZ92a1ZyZYlcRVoALX+kVAUzpy9z6Z0yTqG9npi7bkfrWdtq7t2PvDnshPle\ncaT1ibIkJXuWAYYxHp4Mq7D6u+k05KfnAabU4b5eH+NGQBWhYpnjlf75yYXwLru+\nkOw19mTetGOmoNZblOVx1So4nIhWTxv85oXvCmMR6g63g/N13NPlTA1XMWM/PEjl\nst7BRGLABedQtC4nk+GTtzeIYa1vza5kDBldCh/2T4L+XN4r3XubLwJ9hcogj7VC\n8SfjwhNuYcikvEUnIoihHlPEvUCKpeTBhpMC/IBEgQKBgQDpQAACloINpitYxNsf\nu5osSNPXyPoozlybXxKf504591p4MrUK4WrT+aY2d7sFgKKlVDVc+rzIsl4Z1uYM\nNnXaL0/Eq/t3gmLEDs3IlSsRQOUQZYSpe7BJELCAR1RGamuKJN0U+Iy0saOKagVb\nmw3dgrMhM1QVAd7eaBLMUygvJwKBgQC3NCa9eKZBgFA7Smqb/uolA0Wvp09eymdV\nXVrk/bywMsRPwIb070dhiMd9LsMeRVfyOXdyvfIX7R+UvZCAnFKlcCqBkBPxQXsp\ncy8Ns8n2cBwqPub4G1Z/TC0vSwfohicj1sbyjKKUlg9QAXJFMrPgWBT0Ri4klEdq\nDagq3eP3FQKBgQCWCvN2trbmbNRJgCitGxMsFZUgpEo34be0ws3KSxMJOtLZq1TG\nsQb1YQzI0PBfs8XssGS7cRfrysG5wYGurYHWXsTjcPaMhDVghV1fAIX5zVMM3yEd\nnVFjTvcbLcdKnL6c2OXWzaRFwFfBfD4CFZYvvhnY65nVAaUKUMx2369j1QKBgQCQ\nsO+n1RH5yY2URkHM0pe6g8sV394fz1utX/3ZvUy5HF9PXY85A4Is1go4JCaWUc4T\n0K82QC5kFzNKFi16ZfwgDWaEzXXypPTQ19fhyo1HxWN5OhTQ/0ZhY5iMMYYdb1aa\nR5b5GXmOQLX3Si0l2dWW6foiswreeP2uFPssX/MbwQKBgAH1ZNNED6ZSBUYT8qCp\nDrZ0xZTgnTDdPCCeNmh5EwD4bfEzUM3j0GK/M+s82uG2UIYGyngTtJxFsqLLNr5a\n5E9e0OXRSFIUdINFetQgRQaSSb78kbS7uC7Nv4XAd5L13gd2lVT4e39K6o5m7sd8\ngZNw4sUjag8p6yffUAALyasM\n-----END PRIVATE KEY-----\n",
+  "client_email": "warehouse-bot@warehouse-returns-project.iam.gserviceaccount.com",
+  "client_id": "114527920686054310946",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/warehouse-bot%40warehouse-returns-project.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Transfer - ReturnHubs</title>
+    <style>
+        /* INDUSTRIAL THEME */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+        }
+
+        .payment-container {
+            background: var(--dark-card);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .payment-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .order-info {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .plan-details {
+            color: var(--muted-text);
+            font-size: 14px;
+        }
+
+        .bank-details {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .bank-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .bank-row:last-child {
+            border-bottom: none;
+        }
+
+        .bank-label {
+            color: var(--muted-text);
+            font-weight: 500;
+            min-width: 150px;
+        }
+
+        .bank-value {
+            color: var(--primary-color);
+            font-weight: bold;
+            text-align: right;
+            flex: 1;
+        }
+
+        .copy-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        .instructions {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+        }
+
+        .step-number {
+            background: var(--accent-color);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .receipt-upload {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent-color);
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: var(--muted-text);
+        }
+
+        .btn-submit {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+        }
+
+        .note {
+            text-align: center;
+            color: var(--muted-text);
+            font-size: 12px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>🏦 Bank Transfer</h2>
+        
+        <div class="order-info">
+            <div class="amount" id="orderAmount">₹2,244.00</div>
+            <div class="plan-details" id="orderDetails">Monthly Plan • 1 Admin • 5 Users</div>
+        </div>
+
+        <div class="bank-details">
+            <h3 style="color: var(--primary-color); margin-bottom: 20px; text-align: center;">Bank Account Details</h3>
+            
+            <div class="bank-row">
+                <span class="bank-label">Account Holder:</span>
+                <span class="bank-value">ReturnHubs Technologies Private Limited</span>
+            </div>
+            <div class="bank-row">
+                <span class="bank-label">Bank Name:</span>
+                <span class="bank-value">HDFC Bank</span>
+            </div>
+            <div class="bank-row">
+                <span class="bank-label">Account Number:</span>
+                <span class="bank-value">
+                    50100234765821
+                    <button class="copy-btn" onclick="copyToClipboard('50100234765821')">Copy</button>
+                </span>
+            </div>
+            <div class="bank-row">
+                <span class="bank-label">Account Type:</span>
+                <span class="bank-value">Current Account</span>
+            </div>
+            <div class="bank-row">
+                <span class="bank-label">IFSC Code:</span>
+                <span class="bank-value">
+                    HDFC0000456
+                    <button class="copy-btn" onclick="copyToClipboard('HDFC0000456')">Copy</button>
+                </span>
+            </div>
+            <div class="bank-row">
+                <span class="bank-label">Branch:</span>
+                <span class="bank-value">Chennai - T Nagar</span>
+            </div>
+            <div class="bank-row">
+                <span class="bank-label">Transfer Amount:</span>
+                <span class="bank-value" style="color: var(--success-color);">₹<span id="transferAmount">2244.00</span></span>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Transfer Instructions</h3>
+            
+            <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div>Transfer <strong>₹<span id="stepAmount">2244.00</span></strong> to the bank account above using NEFT/RTGS/IMPS</div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div>Use your email or order ID as payment reference</div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div>Keep the transaction receipt/screenshot ready</div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div>Upload the receipt below for verification</div>
+            </div>
+        </div>
+
+        <div class="receipt-upload">
+            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Upload Payment Receipt</h3>
+            
+            <div class="upload-area" onclick="document.getElementById('receiptFile').click()">
+                <div class="upload-icon">📄</div>
+                <div>Click to upload bank receipt</div>
+                <div style="font-size: 12px; color: var(--muted-text); margin-top: 5px;">PNG, JPG, PDF up to 5MB</div>
+            </div>
+            <input type="file" id="receiptFile" accept=".pdf,.jpg,.jpeg,.png" style="display: none;" onchange="handleFileSelect(this)">
+            <div id="fileName" style="text-align: center; color: var(--muted-text); margin: 10px 0;"></div>
+
+            <div class="form-group">
+                <label for="transactionRef" style="display: block; margin-bottom: 8px; color: var(--muted-text);">Transaction Reference Number</label>
+                <input type="text" id="transactionRef" placeholder="Enter bank transaction reference" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--border-radius); background: var(--dark-card); color: var(--light-text);">
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="submitBankPayment()">
+            Submit for Verification
+        </button>
+
+        <div class="note">
+            ⏳ Account activation within 24-48 hours after verification
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert('Copied to clipboard: ' + text);
+        }
+
+        function handleFileSelect(input) {
+            const file = input.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = 'Selected: ' + file.name;
+            }
+        }
+
+        function submitBankPayment() {
+            const transactionRef = document.getElementById('transactionRef').value;
+            const file = document.getElementById('receiptFile').files[0];
+            const order = getOrderDetails();
+
+            if (!transactionRef.trim()) {
+                alert('Please enter transaction reference number');
+                return;
+            }
+
+            if (!file) {
+                alert('Please upload payment receipt');
+                return;
+            }
+
+            // Simulate bank payment submission
+            window.location.href = `/payment-pending?type=bank&amount=${order.amount}&transaction=${transactionRef}`;
+        }
+
+        function getOrderDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                plan: urlParams.get('plan') || 'monthly',
+                adminUsers: parseInt(urlParams.get('admin')) || 1,
+                regularUsers: parseInt(urlParams.get('regular')) || 5,
+                amount: parseFloat(urlParams.get('amount')) || 2244.00
+            };
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const order = getOrderDetails();
+            
+            // Update amounts
+            document.getElementById('orderAmount').textContent = `₹${order.amount.toFixed(2)}`;
+            document.getElementById('transferAmount').textContent = order.amount.toFixed(2);
+            document.getElementById('stepAmount').textContent = order.amount.toFixed(2);
+            document.getElementById('orderDetails').textContent = 
+                `${order.plan.charAt(0).toUpperCase() + order.plan.slice(1)} Plan • ${order.adminUsers} Admin • ${order.regularUsers} Users`;
+        });
+    </script>
+</body>
+</html>

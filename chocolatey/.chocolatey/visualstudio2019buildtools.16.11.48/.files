@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fileSnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <files>
+    <file path="C:\ProgramData\chocolatey\lib\visualstudio2019buildtools\visualstudio2019buildtools.nupkg" checksum="DC829F8F11D24A9039EA0D4D0F43E43B" />
+    <file path="C:\ProgramData\chocolatey\lib\visualstudio2019buildtools\visualstudio2019buildtools.nuspec" checksum="884E2A7A77160A44BE6C843CB7730A3A" />
+    <file path="C:\ProgramData\chocolatey\lib\visualstudio2019buildtools\tools\.skipAutoUninstall" checksum="D41D8CD98F00B204E9800998ECF8427E" />
+    <file path="C:\ProgramData\chocolatey\lib\visualstudio2019buildtools\tools\ChocolateyInstall.ps1" checksum="B8E85C173FD462DDA014A8BDE24775EA" />
+    <file path="C:\ProgramData\chocolatey\lib\visualstudio2019buildtools\tools\ChocolateyUninstall.ps1" checksum="01A847F640B8BFF09B2145F6BDF92E45" />
+  </files>
+</fileSnapshot>

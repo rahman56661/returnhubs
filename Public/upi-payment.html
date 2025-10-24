@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI Payment - ReturnHubs</title>
+    <style>
+        /* INDUSTRIAL THEME - Same as card payment */
+        :root {
+            --primary-color: #cccccc;
+            --secondary-color: #999999;
+            --accent-color: #ff4444;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-card: #222222;
+            --light-text: #e6e6e6;
+            --muted-text: #888888;
+            --border-color: #444444;
+            --success-color: #44ff44;
+            --warning-color: #ffaa00;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: var(--light-text);
+            padding: 20px;
+        }
+
+        .payment-container {
+            background: var(--dark-card);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .payment-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .order-info {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .plan-details {
+            color: var(--muted-text);
+            font-size: 14px;
+        }
+
+        .upi-options {
+            background: var(--dark-surface);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .option-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .option-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: var(--muted-text);
+            transition: all 0.3s ease;
+        }
+
+        .option-tab.active {
+            border-bottom-color: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .option-content {
+            display: none;
+        }
+
+        .option-content.active {
+            display: block;
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: white;
+            margin: 0 auto 20px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-weight: bold;
+        }
+
+        .upi-id-section {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .upi-id {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .copy-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .payment-steps {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+        }
+
+        .step-number {
+            background: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .btn-verify {
+            background: linear-gradient(to bottom, #ff4444 0%, #cc3333 50%, #aa2222 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-verify:hover {
+            background: linear-gradient(to bottom, #ff5555 0%, #dd4444 50%, #bb3333 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+        }
+
+        .transaction-form {
+            background: var(--dark-surface);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .transaction-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--muted-text);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--dark-card);
+            color: var(--light-text);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>📱 UPI Payment</h2>
+        
+        <div class="order-info">
+            <div class="amount" id="orderAmount">₹2,244.00</div>
+            <div class="plan-details" id="orderDetails">Monthly Plan • 1 Admin • 5 Users</div>
+        </div>
+
+        <div class="upi-options">
+            <div class="option-tabs">
+                <button class="option-tab active" onclick="showOption('qr')">QR Code</button>
+                <button class="option-tab" onclick="showOption('id')">UPI ID</button>
+            </div>
+
+            <div class="option-content active" id="qrOption">
+                <div class="qr-section">
+                    <p>Scan this QR code with any UPI app</p>
+                    <div class="qr-code">
+                        <div style="text-align: center;">
+                            <div style="font-size: 12px; margin-bottom: 5px;">QR CODE</div>
+                            <div style="font-size: 10px;">Amount: ₹<span id="qrAmount">2244.00</span></div>
+                            <div style="font-size: 8px; margin-top: 5px;">Scan to Pay</div>
+                        </div>
+                    </div>
+                    <p>UPI ID: <strong>returnhubs@ybl</strong></p>
+                </div>
+            </div>
+
+            <div class="option-content" id="idOption">
+                <div class="upi-id-section">
+                    <p>Send payment to our UPI ID:</p>
+                    <div class="upi-id">
+                        returnhubs@ybl
+                        <button class="copy-btn" onclick="copyUPIId()">Copy</button>
+                    </div>
+                    <p>Open your UPI app and enter this ID</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>Scan QR code or send payment to UPI ID</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>Enter amount: <strong>₹<span id="stepAmount">2244.00</span></strong></div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>Complete payment in your UPI app</div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div>Click verify after payment</div>
+            </div>
+        </div>
+
+        <button class="btn-verify" onclick="showTransactionForm()">
+            ✅ I've Completed Payment
+        </button>
+
+        <div class="transaction-form" id="transactionForm">
+            <h3>Enter Transaction Details</h3>
+            <div class="form-group">
+                <label for="transactionId">Transaction ID (UPI Reference Number)</label>
+                <input type="text" id="transactionId" placeholder="Enter UPI transaction ID" required>
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">Your Mobile Number</label>
+                <input type="text" id="mobileNumber" placeholder="Enter registered mobile number" required>
+            </div>
+            <button class="btn-verify" onclick="verifyUPIPayment()">
+                Verify Payment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentOption = 'qr';
+
+        function showOption(option) {
+            currentOption = option;
+            
+            // Update tabs
+            document.querySelectorAll('.option-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.option-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            document.getElementById(option + 'Option').classList.add('active');
+        }
+
+        function copyUPIId() {
+            navigator.clipboard.writeText('returnhubs@ybl');
+            alert('UPI ID copied to clipboard!');
+        }
+
+        function showTransactionForm() {
+            document.getElementById('transactionForm').classList.add('active');
+        }
+
+        function verifyUPIPayment() {
+            const transactionId = document.getElementById('transactionId').value;
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const order = getOrderDetails();
+
+            if (!transactionId.trim()) {
+                alert('Please enter transaction ID');
+                return;
+            }
+
+            if (!mobileNumber.trim() || mobileNumber.length !== 10) {
+                alert('Please enter valid 10-digit mobile number');
+                return;
+            }
+
+            // Simulate UPI verification
+            const success = Math.random() > 0.3; // 70% success rate for demo
+            
+            if (success) {
+                window.location.href = `/payment-success?type=upi&amount=${order.amount}&plan=${order.plan}&transaction=${transactionId}`;
+            } else {
+                window.location.href = `/payment-pending?type=upi&amount=${order.amount}&transaction=${transactionId}`;
+            }
+        }
+
+        function getOrderDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                plan: urlParams.get('plan') || 'monthly',
+                adminUsers: parseInt(urlParams.get('admin')) || 1,
+                regularUsers: parseInt(urlParams.get('regular')) || 5,
+                amount: parseFloat(urlParams.get('amount')) || 2244.00
+            };
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const order = getOrderDetails();
+            
+            // Update amounts
+            document.getElementById('orderAmount').textContent = `₹${order.amount.toFixed(2)}`;
+            document.getElementById('qrAmount').textContent = order.amount.toFixed(2);
+            document.getElementById('stepAmount').textContent = order.amount.toFixed(2);
+            document.getElementById('orderDetails').textContent = 
+                `${order.plan.charAt(0).toUpperCase() + order.plan.slice(1)} Plan • ${order.adminUsers} Admin • ${order.regularUsers} Users`;
+        });
+    </script>
+</body>
+</html>

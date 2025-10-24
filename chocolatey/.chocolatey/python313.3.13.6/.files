@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fileSnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <files>
+    <file path="C:\ProgramData\chocolatey\lib\python313\python313.nupkg" checksum="BB838325FFA7FB907ACE387AC70A3798" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\python313.nuspec" checksum="B8ADF9028F0CEDA00E8FD7866823E876" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\legal\LICENSE.txt" checksum="DFDC0079A633172A0819E2F79EB926F2" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\legal\VERIFICATION.txt" checksum="24BAF7F4E0DCF93B4559EA01727389E4" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\tools\chocolateyInstall.ps1" checksum="23B0949B34F9DA2A8F72D8622C5276BB" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\tools\chocolateyUninstall.ps1" checksum="54E28B2E143FF2A087DDCE309594D47B" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\tools\helpers.ps1" checksum="4CF3198FE62545CF3B5445324095DB62" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\tools\python-3.13.6-amd64.exe" checksum="ADF553E6AF2BA72BFB335F87FF15A564" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\tools\python-3.13.6-amd64.exe.ignore" checksum="BEA07E6D2B8DCE396FE21BAA61B34956" />
+    <file path="C:\ProgramData\chocolatey\lib\python313\tools\python-3.13.6.exe" checksum="5A78EAC7EF9DB15FF6201A6BB39E9AEA" />
+  </files>
+</fileSnapshot>

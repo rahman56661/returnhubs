@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<registrySnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <user>S-1-5-21-12583871-1293507040-3703153813-1000</user>
+  <keys>
+    <key installerType="Msi" displayName="Microsoft Visual C++ 2022 X64 Minimum Runtime - 14.44.35211" displayVersion="14.44.35211">
+      <RegistryView>Registry64</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{43B0D101-A022-48F4-9D04-BA404CEB1D53}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA[MsiExec.exe /I{43B0D101-A022-48F4-9D04-BA404CEB1D53}]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[C:\ProgramData\Package Cache\{43B0D101-A022-48F4-9D04-BA404CEB1D53}v14.44.35211\packages\vcRuntimeMinimum_amd64\]]></InstallSource>
+      <Language>1033</Language>
+      <Version>237799819</Version>
+      <VersionMajor>14</VersionMajor>
+      <VersionMinor>44</VersionMinor>
+      <SystemComponent>true</SystemComponent>
+      <WindowsInstaller>true</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+      <LocalPackage><![CDATA[C:\Windows\Installer\aec5388.msi]]></LocalPackage>
+    </key>
+    <key installerType="Msi" displayName="Microsoft Visual C++ 2022 X64 Additional Runtime - 14.44.35211" displayVersion="14.44.35211">
+      <RegistryView>Registry64</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{86AB2CC9-08BD-4643-B0F9-F82D006D72FF}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA[MsiExec.exe /I{86AB2CC9-08BD-4643-B0F9-F82D006D72FF}]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[C:\ProgramData\Package Cache\{86AB2CC9-08BD-4643-B0F9-F82D006D72FF}v14.44.35211\packages\vcRuntimeAdditional_amd64\]]></InstallSource>
+      <Language>1033</Language>
+      <Version>237799819</Version>
+      <VersionMajor>14</VersionMajor>
+      <VersionMinor>44</VersionMinor>
+      <SystemComponent>true</SystemComponent>
+      <WindowsInstaller>true</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+      <LocalPackage><![CDATA[C:\Windows\Installer\aec539a.msi]]></LocalPackage>
+    </key>
+    <key installerType="Custom" displayName="Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.44.35211" displayVersion="14.44.35211.0">
+      <RegistryView>Registry32</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{0b5169e3-39da-4313-808e-1f9c0407f3bf}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA["C:\ProgramData\Package Cache\{0b5169e3-39da-4313-808e-1f9c0407f3bf}\VC_redist.x86.exe" /uninstall /quiet]]></UninstallString>
+      <HasQuietUninstall>true</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate />
+      <InstallSource><![CDATA[]]></InstallSource>
+      <Language />
+      <Version />
+      <VersionMajor>14</VersionMajor>
+      <VersionMinor>44</VersionMinor>
+      <SystemComponent>false</SystemComponent>
+      <WindowsInstaller>false</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+    </key>
+    <key installerType="Msi" displayName="Microsoft Visual C++ 2022 X86 Minimum Runtime - 14.44.35211" displayVersion="14.44.35211">
+      <RegistryView>Registry32</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{922480B5-CAEB-4B1B-AAA4-9716EFDCE26B}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA[MsiExec.exe /I{922480B5-CAEB-4B1B-AAA4-9716EFDCE26B}]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[C:\ProgramData\Package Cache\{922480B5-CAEB-4B1B-AAA4-9716EFDCE26B}v14.44.35211\packages\vcRuntimeMinimum_x86\]]></InstallSource>
+      <Language>1033</Language>
+      <Version>237799819</Version>
+      <VersionMajor>14</VersionMajor>
+      <VersionMinor>44</VersionMinor>
+      <SystemComponent>true</SystemComponent>
+      <WindowsInstaller>true</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+      <LocalPackage><![CDATA[C:\Windows\Installer\aec5368.msi]]></LocalPackage>
+    </key>
+    <key installerType="Msi" displayName="Microsoft Visual C++ 2022 X86 Additional Runtime - 14.44.35211" displayVersion="14.44.35211">
+      <RegistryView>Registry32</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{C18FB403-1E88-43C8-AD8A-CED50F23DE8B}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA[MsiExec.exe /I{C18FB403-1E88-43C8-AD8A-CED50F23DE8B}]]></UninstallString>
+      <HasQuietUninstall>false</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate>20250811</InstallDate>
+      <InstallSource><![CDATA[C:\ProgramData\Package Cache\{C18FB403-1E88-43C8-AD8A-CED50F23DE8B}v14.44.35211\packages\vcRuntimeAdditional_x86\]]></InstallSource>
+      <Language>1033</Language>
+      <Version>237799819</Version>
+      <VersionMajor>14</VersionMajor>
+      <VersionMinor>44</VersionMinor>
+      <SystemComponent>true</SystemComponent>
+      <WindowsInstaller>true</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+      <LocalPackage><![CDATA[C:\Windows\Installer\aec537a.msi]]></LocalPackage>
+    </key>
+    <key installerType="Custom" displayName="Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.44.35211" displayVersion="14.44.35211.0">
+      <RegistryView>Registry32</RegistryView>
+      <KeyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{d8bbe9f9-7c5b-42c6-b715-9ee898a2e515}</KeyPath>
+      <DefaultValue />
+      <InstallLocation><![CDATA[]]></InstallLocation>
+      <UninstallString><![CDATA["C:\ProgramData\Package Cache\{d8bbe9f9-7c5b-42c6-b715-9ee898a2e515}\VC_redist.x64.exe" /uninstall /quiet]]></UninstallString>
+      <HasQuietUninstall>true</HasQuietUninstall>
+      <Publisher><![CDATA[Microsoft Corporation]]></Publisher>
+      <InstallDate />
+      <InstallSource><![CDATA[]]></InstallSource>
+      <Language />
+      <Version />
+      <VersionMajor>14</VersionMajor>
+      <VersionMinor>44</VersionMinor>
+      <SystemComponent>false</SystemComponent>
+      <WindowsInstaller>false</WindowsInstaller>
+      <NoRemove>false</NoRemove>
+      <NoModify>false</NoModify>
+      <NoRepair>false</NoRepair>
+      <ReleaseType />
+      <ParentKeyName />
+    </key>
+  </keys>
+</registrySnapshot>
